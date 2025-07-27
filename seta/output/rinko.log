@@ -1,4 +1,4 @@
-This is LuaHBTeX, Version 1.18.0 (TeX Live 2024)  (format=lualatex 2024.4.25)  25 JUL 2025 14:56
+This is LuaHBTeX, Version 1.18.0 (TeX Live 2024)  (format=lualatex 2024.4.25)  25 JUL 2025 16:13
  restricted system commands enabled.
  file:line:error style messages enabled.
 **c:/Users/PC_User/Documents/gitMiyatan/rinko_25/seta/rinko
@@ -937,10 +937,9 @@ Package: multicol 2023/03/30 v1.9f multicolumn formatting (FMi)
 Package: lltjp-array 2019-07-18 Patch to array for LuaTeX-ja
 )
 Package translations Info: No language package found. I am going to use `english' as default language. on input line 84.
-
-No file rinko.aux.
-
+ (./output/rinko.aux)
 \openout1 = rinko.aux
+
 LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 84.
 LaTeX Font Info:    ... okay on input line 84.
 LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 84.
@@ -951,7 +950,7 @@ LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 84.
 LaTeX Font Info:    ... okay on input line 84.
 LaTeX Font Info:    Checking defaults for TS1/cmr/m/n on input line 84.
 LaTeX Font Info:    Trying loading font information for TS1+cmr on input line 84.
-(c:/texlive/2024/texmf-dist/tex/latex/base/ts1cmr.fd
+ (c:/texlive/2024/texmf-dist/tex/latex/base/ts1cmr.fd
 File: ts1cmr.fd 2023/04/13 v2.5m Standard LaTeX font definitions
 )
 LaTeX Font Info:    ... okay on input line 84.
@@ -1115,9 +1114,31 @@ LaTeX Font Info:    Font shape `JT3/HaranoAjiMincho(0)/b/n' will be
 (Font)              scaled to size 16.62714pt on input line 92.
 LaTeX Font Info:    Font shape `JY3/HaranoAjiMincho(0)/b/n' will be
 (Font)              scaled to size 16.62714pt on input line 92.
- [1
 
-{c:/texlive/2024/texmf-var/fonts/map/pdftex/updmap/pdftex.map}] (./output/rinko.aux)
+warning  (file fig/sintyoku.pdf) (pdf inclusion): PDF inclusion: found PDF version '1.7', but at most version '1.5' allowed
+<fig/sintyoku.pdf, id=1, 845.07724pt x 597.55246pt>
+File: fig/sintyoku.pdf Graphic file (type pdf)
+<use fig/sintyoku.pdf>
+Package luatex.def Info: fig/sintyoku.pdf  used on input line 99.
+(luatex.def)             Requested size: 182.09486pt x 128.75392pt.
+<fig/LEDjukou.png, id=2, 708.6475pt x 334.24875pt>
+File: fig/LEDjukou.png Graphic file (type png)
+<use fig/LEDjukou.png>
+Package luatex.def Info: fig/LEDjukou.png  used on input line 109.
+(luatex.def)             Requested size: 182.09486pt x 85.88768pt.
+<fig/100.jpg, id=3, 4047.12pt x 3035.34pt>
+File: fig/100.jpg Graphic file (type jpg)
+<use fig/100.jpg>
+Package luatex.def Info: fig/100.jpg  used on input line 117.
+(luatex.def)             Requested size: 182.09486pt x 136.53809pt.
+<fig/250.jpg, id=4, 4047.12pt x 3035.34pt>
+File: fig/250.jpg Graphic file (type jpg)
+<use fig/250.jpg>
+Package luatex.def Info: fig/250.jpg  used on input line 123.
+(luatex.def)             Requested size: 182.09486pt x 136.53809pt.
+[1
+
+{c:/texlive/2024/texmf-var/fonts/map/pdftex/updmap/pdftex.map}<./fig/sintyoku.pdf><./fig/LEDjukou.png><./fig/100.jpg><./fig/250.jpg>] (./output/rinko.aux)
  ***********
 LaTeX2e <2023-11-01> patch level 1
 L3 programming layer <2024-03-14>
@@ -1125,19 +1146,19 @@ L3 programming layer <2024-03-14>
 )
 
 Here is how much of LuaTeX's memory you used:
- 18841 strings out of 476435
+ 18900 strings out of 476435
  125244,1977958 words of node,token memory allocated
- 1124 words of node memory still in use:
-   11 hlist, 2 vlist, 5 rule, 2 glue, 4 kern, 1 glyph, 203 attribute, 66 glue_spec, 30 attribute_list, 1 write, 14 user_defined nodes
-   avail lists: 1:20,2:3586,3:70,4:96,5:43,6:11,7:356,8:2,9:178,10:8,12:1
- 40532 multiletter control sequences out of 65536+600000
+ 1148 words of node memory still in use:
+   11 hlist, 2 vlist, 5 rule, 2 glue, 4 kern, 1 glyph, 214 attribute, 66 glue_spec, 31 attribute_list, 1 write, 14 user_defined nodes
+   avail lists: 1:20,2:13901,3:330,4:275,5:63,6:63,7:1883,8:2,9:912,10:9,11:12,12:1
+ 40574 multiletter control sequences out of 65536+600000
  50 fonts using 60792447 bytes
- 110i,5n,115p,1906b,406s stack positions out of 10000i,1000n,20000p,200000b,200000s
+ 110i,7n,115p,1906b,616s stack positions out of 10000i,1000n,20000p,200000b,200000s
 <c:/texlive/2024/texmf-dist/fonts/opentype/public/tex-gyre/texgyretermes-regular.otf><c:/texlive/2024/texmf-dist/fonts/opentype/public/haranoaji/HaranoAjiMincho-Regular.otf><c:/texlive/2024/texmf-dist/fonts/opentype/public/tex-gyre/texgyretermes-bold.otf><c:/texlive/2024/texmf-dist/fonts/opentype/public/haranoaji/HaranoAjiMincho-Bold.otf>
-Output written on rinko.pdf (1 page, 19814 bytes).
+Output written on rinko.pdf (1 page, 1595822 bytes).
 
-PDF statistics: 38 PDF objects out of 1000 (max. 8388607)
- 22 compressed objects within 1 object stream
+PDF statistics: 60 PDF objects out of 1000 (max. 8388607)
+ 34 compressed objects within 1 object stream
  0 named destinations out of 1000 (max. 131072)
  1 words of extra memory for PDF output out of 10000 (max. 100000000)
 
