@@ -1,0 +1,311 @@
+\documentclass[a4paper,10pt]{article}
+\usepackage{luatexja}
+\usepackage{luatexja-fontspec}
+\usepackage{geometry}
+\usepackage{multicol}
+\usepackage{titlesec}
+\usepackage{setspace}
+\usepackage{graphicx}
+\usepackage{caption}
+\usepackage{indentfirst}
+\usepackage{float} % 図の位置を制御するために追加
+\usepackage[utf8]{inputenc}
+\usepackage{listings}
+\usepackage{xcolor}
+
+\geometry{margin=1in}
+
+% 図のキャプションの表記を「図1」のように日本語化
+\renewcommand{\figurename}{図}
+\captionsetup[figure]{labelformat=default,labelsep=period}
+
+
+\renewcommand{\tablename}{表}
+\captionsetup[table]{labelformat=default,labelsep=period}
+
+\geometry{margin=25mm}
+\setstretch{1.2}
+\parindent=1em
+
+\titleformat{\section}{\large\bfseries}{\thesection.}{1em}{}
+
+\definecolor{keywordcolor}{rgb}{0.26, 0.38, 0.68}
+\definecolor{commentcolor}{rgb}{0.3, 0.6, 0.3}
+\definecolor{stringcolor}{rgb}{0.7, 0.2, 0.2}
+
+\lstdefinelanguage{SystemVerilog}{
+  morekeywords={module,endmodule,input,output,logic,always_ff,if,else,begin,end,posedge,negedge},
+  sensitive=true,
+  morecomment=[l]{//},
+  morecomment=[s]{/*}{*/},
+  morestring=[b]",
+}
+
+\lstset{
+  language=SystemVerilog,
+  basicstyle=\ttfamily\small,
+  keywordstyle=\color{keywordcolor}\bfseries,
+  commentstyle=\color{commentcolor}\itshape,
+  stringstyle=\color{stringcolor},
+  numbers=left,
+  numberstyle=\tiny,
+  stepnumber=1,
+  numbersep=5pt,
+  frame=single,
+  tabsize=2,
+  showstringspaces=false,
+  breaklines=true,
+  breakatwhitespace=true
+}
+
+\title{SystemVerilog Code with Listings}
+
+\begin{document}
+
+% タイトルブロック
+\begin{center}
+\noindent
+{\LARGE 第3回輪講資料} \\
+{\large 4321　野秋 琳太郎} \\
+2025年 10月 02日
+\end{center}
+
+\begin{flushright}
+指導教員　宮田 尚起
+\end{flushright}
+
+% 二段組開始
+\begin{multicols}{2}
+
+\section{はじめに}
+LEDで光通信をして,「糸なし糸電話」をした.
+ほかの近況報告としては,「岩波講座 現代の物理学〈2〉電磁力学」を半分(相対論の最初らへん)ぐらいまで読んだ.
+きっと編入試験やら来年の研究やらで役にたってくれるであろう.
+
+\section{やったこと}
+\subsection{通信のプロトコルの整理}
+前回,本橋の輪講資料にある通り,オーディオ信号を分解能8bitでデジタル信号に変換し,シリアル通信でデータを送る.
+このシリアル通信は基本的にUARTの規格に沿ったものであるが,少々手が加えてある.
+図\ref{fig:uart_protocol},\ref{fig:protocol}はそれぞれ,本来のUARTと「糸なし糸電話」用に手を加えた通信の波形である.
+図\ref{fig:uart_protocol}で周期的に垂れ流され,ダミーbitがストップbitの役割をすることで,通常のUART受信回路を使用することができる.
+
+今回使用する通信は途中で途絶えることが多い.
+図\ref{fig:saikai_protocol}のようにデータを送っている途中で通信が開始した(再開した)場合を考える.
+このとき,送信側と受信側で現れる波形は同一であるが,その意味は異なる.
+まず,データが1から0になったタイミングで,受信回路はそれをスタートbitとして誤認する.
+そして1bitぶんの時間を開けて,そこから8bitの信号をデータbitとしてゴミのデータを内部に取り込む.
+ここで7bitぶんのダミーがあるので,次のスタートbitが来る前にデータの受信を完了する.
+するとダミーbit(1)のあとのスタートbit(0)を,確実にスタートbitとして認識できる.
+これにより,2周期目以降の通信では確実に正しいデータを得られるようになる.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.9\linewidth]{figure/uart_protocol.png} 
+    \caption{UART通信の波形} 
+    \label{fig:uart_protocol}
+\end{figure}
+  
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.9\linewidth]{figure/protocol.png} 
+    \caption{使用する通信の波形} 
+    \label{fig:protocol}
+  \end{figure}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.6\linewidth]{figure/saikai_protocol.png} 
+    \caption{データの途中で通信が開始した場合} 
+    \label{fig:saikai_protocol}
+\end{figure}
+
+\subsection{回路図を描く}
+糸なし糸電話のブロック図を図\ref{fig:block_diagram}に示す.
+各ブロックの回路を以下で説明する.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.8\linewidth]{figure/block_diagram.png} 
+    \caption{糸なし糸電話のブロック図} 
+    \label{fig:block_diagram}
+\end{figure}
+
+\subsubsection{入力側アンプ}
+入力側アンプは図\ref{fig:in_amp}のように設計した.
+このアンプは二段階になっていて,
+  DCカット→バイアス→増幅→DCカット→バイアス→増幅
+という構成になっている.
+入力電圧の振幅は,パソコンなどのイヤホンジャックで数百mV,マイクの出力で数mVである.
+そのため,アンプの増幅率は数十倍から数百倍のものが必要になる.
+アンプを2段階にするとその調整が容易になる.
+
+電源電圧に5V以外を用意するのは面倒なので,電源電圧5Vの単電源でレールtoレールに動作するOPアンプ,$MCP602$を使用した.
+数mVオーダーで振れるオーディオ信号をOPアンプの動作点まで引き上げたいので,バイアス回路にかけてからOPアンプに入力するようにしている.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=1.5\linewidth,angle=270]{figure/in_amp.png} 
+    \caption{入力側のアンプの回路} 
+    \label{fig:in_amp}
+\end{figure}
+
+\subsubsection{ADコンバータ}
+ADコンバータは図\ref{fig:adc}のように設計した.
+使用したICは$\mu PD6950$である.
+これは映像信号用のADコンバータで,14MHzで8bitの変換が可能である.
+
+$ADC\_CK$はUARTのタイミング用の信号の分周元で,4.9152MHzが入力されている.
+また,$RT$はADコンバータの基準電圧で3.5Vに調整して入力される.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.8\linewidth]{figure/adc.png} 
+    \caption{ADコンバータ} 
+    \label{fig:adc}
+\end{figure}
+
+\subsubsection{UARTの出力}
+UART出力回路は図\ref{fig:uart_tx}のように設計した.
+主な機能には74ls165を使用している.
+これは8bitのシフトレジスタで,2つつなげてダミーbit,スタートbit,データbitを合わせた16bitぶんのデータをシフトしている.
+
+$uart\_baud0$はUARTのボーレートで,もとの水晶を$2^5$分周した307.2kHzになっている.
+これは,UARTで伝統的に多く採用される9600bpsの32倍である.
+16bitで1周期なので,サンプリングレートは19.2kHzである.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=\linewidth]{figure/uart_tx.png} 
+    \caption{UART出力回路} 
+    \label{fig:uart_tx}
+\end{figure}
+
+\subsubsection{LEDの駆動}
+LED駆動回路は図\ref{fig:led}のように設計した.
+LEDは浜松ホトニクスのL12170を使用した.
+これは普通の5mmLEDのサイズにも関わらず300mAの大電流を流すことができ,なおかつ40MHzもの高速な応答性を持っている.
+
+これをフルパワーで駆動するにはロジックICのの出力では足りないので,MOSFETで駆動している.
+使用したMOSFETは$2SK4017$である.
+このICののゲートは730 pFの容量があり,これもまたロジックICの出力で307.2kHzもの高速ではスイッチングできない.
+そこでロジックICのとMOSFETのゲートの間に,$2sc1815$と$2sa1015$のプッシュプル回路をはさんでいる.
+これはゲートドライバを使用したほうが理想的な動作をすると考えられる.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=\linewidth]{figure/led.png} 
+    \caption{LED駆動回路} 
+    \label{fig:led}
+\end{figure}
+
+\subsubsection{TIA}
+TIA(トランスインピーダンスアンプ)は図\ref{fig:tia}のように設計した.
+この回路は受光素子に流れる微小な逆電流をロジックレベルの電圧に変換する.
+
+受光素子は浜松ホトニクスのS6775である.
+これは25MHzの高速応答,大きい受光面積による高い受光感度が特徴で,見た目がかっこいいので図\ref{fig:s6775}に示す.
+使用したOPアンプはテキサスインスツルメンツのOPA350で,これは5V単電源でレールtoレールの出力,38MHzの広い利得帯域が特徴である.
+これは今回扱う高速な微小電流を電圧に変換する回路に適している.
+ひとつ1100円する.
+
+この回路は前段と後段の2つのアンプで機能が分かれる.
+前段はTIA本体で,後段はコンパレータである.
+TIAの出力は2.5Vを中心に,受光素子から流れる電流によって±数十mVで振れる.
+後段のコンパレータは2.5Vを中心に数mVのヒステリシスを持っており,TIAから電流が流れたかどうかを見てHigh,Lowを出力する.
+TIA,コンパレータ,ともに逆相アンプで,二重にかけることで正相のアンプとして機能している.
+
+この仕組みには疑問がある.
+たとえば,光があたったときはダイオードから電流が流れる.
+このとき,出力電圧が2.5 Vから2.4 Vになるとする.
+それに対して光が当たっていないときは電流が流れないだけなので,出力電圧は2.5Vから変化しない.
+このとき,コンパレータはこの回路のとおりに作るとしきい値が2.51Vぐらいになってしまって,これを上回れる場合は存在しなくなってしまう.
+これは決着がついていないので,回路の基準電圧を作る部分を可変にして,その場で対応できるようにする.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=1.4\linewidth,angle=270]{figure/tia.png} 
+    \caption{入力側のアンプの回路} 
+    \label{fig:tia}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=\linewidth]{figure/s6775.jpg} 
+    \caption{受光素子,S6775} 
+    \label{fig:s6775}
+\end{figure}
+
+\subsubsection{UARTの受信}
+UART受信回路は図\ref{fig:uart_rx}のように設計した.
+主な機能には74ls595を使用した.
+
+これは8bitのシフトレジスタで,シリアルの信号をパラレルにして出力する.
+74ls74はUARTの信号がLowになるタイミングを監視していて,Lowのエッジで$4040$の動作を可能にする.
+$4040$はカウンタで,これが受信開始のタイミングで0からボーレートの立ち上がりまでクロックを数えると,UARTの信号とボーレートの信号の立ち上がりは1/2周期ずれることになる.
+これが嬉しくて,ボーレートの立ち上がりのタイミングではUARTのデータはもっとも確からしい値を示している.
+そのタイミングでシフトレジスタに取り込めば,UARTが受信できる.
+これを9回繰り返せば,スタートbit+データbitを取り込んで,シフトレジスタにはちょうどデータだけが残り,受信が完了できる.
+ダイオードロジックはそのタイミングを監視していて,受信が完了したらカウンタを止めることで受信を終わらせる.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=\linewidth]{figure/uart_rx.png} 
+    \caption{UART受信回路} 
+    \label{fig:uart_rx}
+\end{figure}
+
+\subsubsection{DAコンバータ}
+UART受信回路は図\ref{fig:dac}のように設計した.
+使用したICは$\mu PD6902$である.
+これは映像信号用のDAコンバータで,$\mu PD6950$とは対になる存在らしい.
+若松通商で800円で,在庫残り2だった.
+出力についている$MCP602$はDACの出力を増強するものである.
+貴重なICを壊したくないので,大事をとって入れてある.
+
+$DAC\_CK$は行儀の悪い回路である.
+図\ref{fig:uart_rx}を見ればわかるように,この信号はUARTの信号次第でいくらでもストレッチされる.
+しかも,クロックが回るのは次のデータを受信している最中であるので,タイミング的にもなんだかややこい.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=\linewidth]{figure/dac.png} 
+    \caption{DAコンバータ} 
+    \label{fig:dac}
+\end{figure}
+
+\subsubsection{出力側アンプ}
+出力側アンプは図\ref{fig:out_amp}のように設計した.
+使用したICはLM386で,回路はデータシートに記載のものをそのまま使用している.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=\linewidth]{figure/out_amp.png} 
+    \caption{出力側アンプ} 
+    \label{fig:out_amp}
+\end{figure}
+
+\subsection{基板への実装}
+基板に実装したものを図\ref{fig:sosin},\ref{fig:jusin}に示す.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.8\linewidth]{figure/sosin.jpg} 
+    \caption{送信側回路} 
+    \label{fig:sosin}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.8\linewidth]{figure/jusin.jpg} 
+    \caption{受信側回路} 
+    \label{fig:jusin}
+  \end{figure}
+  
+\section{今後の予定}
+パラボラアンテナをつくって,通信距離を伸ばす.
+
+\section{稲毛研に勝てるか}
+勝てる.
+\end{multicols}
+
+\end{document}
