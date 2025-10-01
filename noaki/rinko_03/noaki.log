@@ -1,4 +1,4 @@
-This is LuaHBTeX, Version 1.22.0 (TeX Live 2025)  (format=lualatex 2025.7.7)  1 OCT 2025 22:27
+This is LuaHBTeX, Version 1.22.0 (TeX Live 2025)  (format=lualatex 2025.7.7)  1 OCT 2025 23:02
  restricted system commands enabled.
 **noaki.tex
 (./noaki.tex
@@ -1315,7 +1315,7 @@ Package luatex.def Info: figure/in_amp.png  used on input line 152.
 File: figure/adc.png Graphic file (type png)
 <use figure/adc.png>
 Package luatex.def Info: figure/adc.png  used on input line 167.
-(luatex.def)             Requested size: 178.09831pt x 154.91837pt.
+(luatex.def)             Requested size: 200.35849pt x 174.27701pt.
 
 
 
@@ -1323,15 +1323,20 @@ Package luatex.def Info: figure/adc.png  used on input line 167.
 
 
 [2<./figure/block_diagram.png><./figure/in_amp.png><./figure/adc.png>]
-<figure/uart_tx.png, id=30, 546.04pt x 883.3pt>
+<figure/74165.png, id=30, 1010.77625pt x 745.78625pt>
+File: figure/74165.png Graphic file (type png)
+<use figure/74165.png>
+Package luatex.def Info: figure/74165.png  used on input line 192.
+(luatex.def)             Requested size: 178.09831pt x 131.40216pt.
+<figure/uart_tx.png, id=31, 546.04pt x 883.3pt>
 File: figure/uart_tx.png Graphic file (type png)
 <use figure/uart_tx.png>
-Package luatex.def Info: figure/uart_tx.png  used on input line 191.
+Package luatex.def Info: figure/uart_tx.png  used on input line 199.
 (luatex.def)             Requested size: 222.62206pt x 360.12016pt.
-<figure/led.png, id=31, 697.60625pt x 666.49pt>
+<figure/led.png, id=32, 697.60625pt x 666.49pt>
 File: figure/led.png Graphic file (type png)
 <use figure/led.png>
-Package luatex.def Info: figure/led.png  used on input line 212.
+Package luatex.def Info: figure/led.png  used on input line 220.
 (luatex.def)             Requested size: 222.62206pt x 212.6913pt.
 
 
@@ -1339,16 +1344,16 @@ Package luatex.def Info: figure/led.png  used on input line 212.
 
 
 
-[3<./figure/uart_tx.png>]
-<figure/tia.png, id=37, 1114.1625pt x 558.085pt>
+[3<./figure/74165.png><./figure/uart_tx.png>]
+<figure/tia.png, id=39, 1114.1625pt x 558.085pt>
 File: figure/tia.png Graphic file (type png)
 <use figure/tia.png>
-Package luatex.def Info: figure/tia.png  used on input line 244.
+Package luatex.def Info: figure/tia.png  used on input line 252.
 (luatex.def)             Requested size: 311.66951pt x 156.10945pt.
-<figure/s6775.jpg, id=38, 162.29053pt x 121.7179pt>
+<figure/s6775.jpg, id=40, 162.29053pt x 121.7179pt>
 File: figure/s6775.jpg Graphic file (type jpg)
 <use figure/s6775.jpg>
-Package luatex.def Info: figure/s6775.jpg  used on input line 251.
+Package luatex.def Info: figure/s6775.jpg  used on input line 259.
 (luatex.def)             Requested size: 222.62206pt x 166.97537pt.
 
 
@@ -1357,55 +1362,61 @@ Package luatex.def Info: figure/s6775.jpg  used on input line 251.
 
 
 [4<./figure/led.png><./figure/tia.png><./figure/s6775.jpg>]
-<figure/uart_rx.png, id=44, 650.43pt x 889.3225pt>
+<figure/74595.png, id=46, 1162.3425pt x 816.04875pt>
+File: figure/74595.png Graphic file (type png)
+<use figure/74595.png>
+Package luatex.def Info: figure/74595.png  used on input line 291.
+(luatex.def)             Requested size: 222.62206pt x 156.29607pt.
+<figure/uart_rx.png, id=47, 650.43pt x 889.3225pt>
 File: figure/uart_rx.png Graphic file (type png)
 <use figure/uart_rx.png>
-Package luatex.def Info: figure/uart_rx.png  used on input line 270.
+Package luatex.def Info: figure/uart_rx.png  used on input line 298.
 (luatex.def)             Requested size: 222.62206pt x 304.38756pt.
-<figure/dac.png, id=45, 1110.1475pt x 864.22874pt>
+<figure/dac.png, id=48, 1110.1475pt x 864.22874pt>
 File: figure/dac.png Graphic file (type png)
 <use figure/dac.png>
-Package luatex.def Info: figure/dac.png  used on input line 289.
+Package luatex.def Info: figure/dac.png  used on input line 305.
 (luatex.def)             Requested size: 222.62206pt x 173.30423pt.
-<figure/out_amp.png, id=46, 891.33pt x 793.96625pt>
+
+
+
+
+
+
+[5<./figure/74595.png><./figure/uart_rx.png><./figure/dac.png>]
+<figure/out_amp.png, id=55, 891.33pt x 793.96625pt>
 File: figure/out_amp.png Graphic file (type png)
 <use figure/out_amp.png>
-Package luatex.def Info: figure/out_amp.png  used on input line 300.
+Package luatex.def Info: figure/out_amp.png  used on input line 317.
 (luatex.def)             Requested size: 222.62206pt x 198.29723pt.
-
-
-
-
-
-
-[5<./figure/uart_rx.png><./figure/dac.png><./figure/out_amp.png>]
-<figure/sosin.jpg, id=53, 1675.25874pt x 2518.40875pt>
+<figure/sosin.jpg, id=56, 1675.25874pt x 2518.40875pt>
 File: figure/sosin.jpg Graphic file (type jpg)
 <use figure/sosin.jpg>
-Package luatex.def Info: figure/sosin.jpg  used on input line 311.
+Package luatex.def Info: figure/sosin.jpg  used on input line 327.
 (luatex.def)             Requested size: 178.09831pt x 267.7263pt.
-<figure/jusin.jpg, id=54, 1768.6075pt x 2717.15125pt>
+<figure/jusin.jpg, id=57, 1768.6075pt x 2717.15125pt>
 File: figure/jusin.jpg Graphic file (type jpg)
 <use figure/jusin.jpg>
-Package luatex.def Info: figure/jusin.jpg  used on input line 318.
+Package luatex.def Info: figure/jusin.jpg  used on input line 334.
 (luatex.def)             Requested size: 178.09831pt x 273.59676pt.
-<figure/test.jpg, id=55, 4047.12pt x 3035.34pt>
+<figure/test.jpg, id=58, 4047.12pt x 3035.34pt>
 File: figure/test.jpg Graphic file (type jpg)
 <use figure/test.jpg>
-Package luatex.def Info: figure/test.jpg  used on input line 355.
-(luatex.def)             Requested size: 178.09831pt x 133.52757pt.
-<figure/check.png, id=56, 1084.05pt x 593.21625pt>
+Package luatex.def Info: figure/test.jpg  used on input line 345.
+(luatex.def)             Requested size: 155.83475pt x 116.854pt.
+<figure/check.png, id=59, 1084.05pt x 593.21625pt>
 File: figure/check.png Graphic file (type png)
 <use figure/check.png>
-Package luatex.def Info: figure/check.png  used on input line 362.
-(luatex.def)             Requested size: 178.09831pt x 97.45102pt.
+Package luatex.def Info: figure/check.png  used on input line 352.
+(luatex.def)             Requested size: 155.83475pt x 85.26738pt.
 
 
 
 
 
 
-[6<./figure/sosin.jpg><./figure/jusin.jpg><./figure/test.jpg>]
+[6<./figure/out_amp.png><./figure/sosin.jpg><./figure/jusin.jpg><./figure/test.j
+pg><./figure/check.png>]
 
 
 
@@ -1417,7 +1428,7 @@ See the caption package documentation for explanation.
 
 
 
-[7<./figure/check.png>] (./noaki.aux)
+[7] (./noaki.aux)
  ***********
 LaTeX2e <2025-06-01> patch level 1
 L3 programming layer <2025-06-09>
@@ -1425,16 +1436,16 @@ L3 programming layer <2025-06-09>
 )
 
 Here is how much of LuaTeX's memory you used:
- 10893 strings out of 470205
- 156557,794899 words of node,token memory allocated
- 1292 words of node memory still in use:
-   8 hlist, 1 vlist, 4 rule, 2 glue, 3 kern, 1 glyph, 340 attribute, 54 glue_spe
-c, 40 attribute_list, 1 write, 10 user_defined nodes
-   avail lists: 1:34,2:44265,3:338,4:276,5:97,6:43,7:4933,8:10,9:2114,10:24,11:1
+ 10915 strings out of 470205
+ 195705,794899 words of node,token memory allocated
+ 1052 words of node memory still in use:
+   8 hlist, 1 vlist, 4 rule, 2 glue, 3 kern, 1 glyph, 230 attribute, 54 glue_spe
+c, 30 attribute_list, 1 write, 10 user_defined nodes
+   avail lists: 1:35,2:45852,3:440,4:268,5:99,6:43,7:5666,8:10,9:2559,10:24,11:1
 0
- 38912 multiletter control sequences out of 65536+600000
+ 38928 multiletter control sequences out of 65536+600000
  53 fonts using 78065951 bytes
- 104i,8n,115p,1770b,701s stack positions out of 10000i,1000n,20000p,200000b,200000s
+ 104i,8n,115p,1770b,698s stack positions out of 10000i,1000n,20000p,200000b,200000s
 </usr/local/texlive/2025/texmf-dist/fonts/opentype/public/lm/lmroman10-bold.otf>
 </usr/local/texlive/2025/texmf-dist/fonts/opentype/public/haranoaji/HaranoAjiMin
 cho-Bold.otf></usr/local/texlive/2025/texmf-dist/fonts/opentype/public/lm/lmroma
@@ -1446,9 +1457,9 @@ haranoaji/HaranoAjiMincho-Regular.otf></usr/local/texlive/2025/texmf-dist/fonts/
 type1/public/amsfonts/cm/cmmi10.pfb></usr/local/texlive/2025/texmf-dist/fonts/ty
 pe1/public/amsfonts/cm/cmr10.pfb></usr/local/texlive/2025/texmf-dist/fonts/type1
 /public/amsfonts/cm/cmr7.pfb>
-Output written on noaki.pdf (7 pages, 3563138 bytes).
+Output written on noaki.pdf (7 pages, 3760885 bytes).
 
-PDF statistics: 117 PDF objects out of 1000 (max. 8388607)
+PDF statistics: 121 PDF objects out of 1000 (max. 8388607)
  53 compressed objects within 1 object stream
  0 named destinations out of 1000 (max. 131072)
  1 words of extra memory for PDF output out of 10000 (max. 100000000)

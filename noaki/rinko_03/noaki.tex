@@ -12,7 +12,7 @@
 \usepackage{listings}
 \usepackage{xcolor}
 
-\geometry{margin=25mm}
+\geometry{margin=20mm}
 \setstretch{1.2}
 \parindent=1em
 
@@ -164,14 +164,15 @@ $ADC\_CK$はUARTのタイミング用の信号の分周元で,4.9152MHzが入力
 
 \begin{figure}[H]
     \centering
-    \includegraphics[width=0.8\linewidth]{figure/adc.png} 
+    \includegraphics[width=0.9\linewidth]{figure/adc.png} 
     \caption{ADコンバータ} 
     \label{fig:adc}
 \end{figure}
 
 \subsubsection{UARTの出力}
 UART出力回路は, 図\ref{fig:uart_tx}に示すように設計した.  
-この回路の中心的な役割を担っているのは, 74LS165である.  
+この回路の中心的な役割を担っているのは, 74LS165である.
+74LS165の内部回路を図\ref{fig:74165}に示す.
 74LS165は8bit幅のシフトレジスタであり, 本研究ではこれを2つ直列に接続することで, ダミーbitやスタートbit, そして実際のデータbitを含めた合計16bit分のデータをシフトできるようにしている.  
 この構成により, UARTで必要とされるbit列を一定のリズムで送り出すことが可能となる.  
 
@@ -185,6 +186,13 @@ $uart\_baud0$はUARTのボーレートを決定する信号であり, 基準と�
 この値はオーディオ信号処理における標準的なレート（例えば44.1\,kHzや48\,kHz）に比べるとやや低いが, UARTを使ったシリアル通信の枠組みとしては十分に実用的な周波数であると考えられる.  
 
 以上のように, UART出力回路はシフトレジスタの直列接続とシンプルなクロック分周を組み合わせることで, 比較的少ない部品点数ながらも安定した通信を可能にしている.  
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.8\linewidth]{figure/74165.png} 
+    \caption{74ls165の内部回路} 
+    \label{fig:74165}
+\end{figure}
 
 \begin{figure}[H]
     \centering
@@ -257,6 +265,7 @@ TIA,コンパレータ,ともに逆相アンプで,二重にかけることで�
 UART受信回路は図\ref{fig:uart_rx}のように設計した.
 主な機能には74ls595を使用した.
 
+74LS595の内部回路を図\ref{fig:74595}に示す.
 これは8bitのシフトレジスタで,シリアルの信号をパラレルにして出力する.
 74ls74はUARTの信号がLowになるタイミングを監視していて,Lowのエッジで$4040$の動作を可能にする.
 $4040$はカウンタで,これが受信開始のタイミングで0からボーレートの立ち上がりまでクロックを数えると,UARTの信号とボーレートの信号の立ち上がりは1/2周期ずれることになる.
@@ -264,13 +273,6 @@ $4040$はカウンタで,これが受信開始のタイミングで0からボー
 そのタイミングでシフトレジスタに取り込めば,UARTが受信できる.
 これを9回繰り返せば,スタートbit+データbitを取り込んで,シフトレジスタにはちょうどデータだけが残り,受信が完了できる.
 ダイオードロジックはそのタイミングを監視していて,受信が完了したらカウンタを止めることで受信を終わらせる.
-
-\begin{figure}[H]
-    \centering
-    \includegraphics[width=\linewidth]{figure/uart_rx.png} 
-    \caption{UART受信回路} 
-    \label{fig:uart_rx}
-\end{figure}
 
 \subsubsection{DAコンバータ}
 UART受信回路は図\ref{fig:dac}のように設計した.
@@ -286,11 +288,26 @@ $DAC\_CK$は行儀の悪い回路である.
 
 \begin{figure}[H]
     \centering
+    \includegraphics[width=\linewidth]{figure/74595.png} 
+    \caption{74ls595の内部回路} 
+    \label{fig:74595}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=\linewidth]{figure/uart_rx.png} 
+    \caption{UART受信回路} 
+    \label{fig:uart_rx}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
     \includegraphics[width=\linewidth]{figure/dac.png} 
     \caption{DAコンバータ} 
     \label{fig:dac}
 \end{figure}
 
+\newpage
 \subsubsection{出力側アンプ}
 出力側アンプは図\ref{fig:out_amp}のように設計した.
 使用したICはLM386で,回路はデータシートに記載のものをそのまま使用している.
@@ -301,10 +318,9 @@ $DAC\_CK$は行儀の悪い回路である.
     \caption{出力側アンプ} 
     \label{fig:out_amp}
 \end{figure}
-\newpage
+
 \subsection{基板への実装}
 基板に実装したものを図\ref{fig:sosin},\ref{fig:jusin}に示す.
-
 
 \begin{figure}[H]
     \centering
@@ -319,16 +335,31 @@ $DAC\_CK$は行儀の悪い回路である.
     \caption{受信側回路} 
     \label{fig:jusin}
 \end{figure}
-
-\section{動作確認}
+\subsection{動作確認}
 図\ref{fig:test}, \ref{fig:check}に示すように, 通信が正常に行われていることを確認した.  
 図\ref{fig:test}からは, 送信側で出力された波形が受信側で忠実に再現されていることがわかる.  
 また, 図\ref{fig:check}では, PCのイヤホンジャックからの音声を受信側のスピーカで出力している様子を示している.  
 
-本回路単体での通信距離は最大で約5\,mであった.  
-それ以上の距離では, 受光素子からの電流が不足し, TIAによって十分な振幅の電圧を得ることができなかった.  
-この問題に対して, 以下のような解決策が考えられる.  
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.7\linewidth]{figure/test.jpg} 
+    \caption{通信の確認} 
+    \label{fig:test}
+\end{figure}
 
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.7\linewidth]{figure/check.png} 
+    \caption{動作確認} 
+    \label{fig:check}
+\end{figure}
+
+この回路の通信距離は最大で約5\,mであった.
+分解能は8bitしか無いが,サンプリング周波数がそれなり(19.2kHz)あるので,音質は十分であった(電話のサンプリング周波数は8kHz).
+本来のノルマが1\,mなのでここで投げ出しても良いのだが,距離を追求してみることにする.
+
+5\,m以上の距離では, 受光素子からの電流が不足し, TIAによって十分な振幅の電圧を得ることができなかった.  
+この問題に対して, 以下のような解決策が考えられる.
 \begin{itemize}
 \item
   \textbf{LEDの高出力化}\\
@@ -339,7 +370,8 @@ $DAC\_CK$は行儀の悪い回路である.
 \item
   \textbf{受光素子の増設}\\
   受光素子を並列に追加することで, 電流を単純に増加させることができると期待される.  
-  しかし, 受光素子は数百\,nAオーダーの微弱な電流しか流れず非常にデリケートであるため, この方法の有効性には不確実性がある.  
+  しかし, 受光素子は数百\,nAオーダーの微弱な電流しか流れず非常にデリケートであるため, この方法の有効性には不確実性がある.
+  少なくとも,そのような前例は見つけられなかった.
 
 \item
   \textbf{パラボラアンテナの利用}\\
@@ -348,27 +380,16 @@ $DAC\_CK$は行儀の悪い回路である.
 \end{itemize}
 
 実際に林がパラボラアンテナを試作し, これを用いてテストを行ったところ, 通信距離は約10\,mまで延長できた.  
-今後はこのアプローチを基盤として, 通信距離のさらなる改善を図ることとする.  
-
-\begin{figure}[H]
-    \centering
-    \includegraphics[width=0.8\linewidth]{figure/test.jpg} 
-    \caption{通信の確認} 
-    \label{fig:test}
-\end{figure}
-
-\begin{figure}[H]
-    \centering
-    \includegraphics[width=0.8\linewidth]{figure/check.png} 
-    \caption{動作確認} 
-    \label{fig:check}
-\end{figure}
+今後はこのアプローチを基盤として, 通信距離のさらなる改善を図ることとする.
 
 \section{今後の予定}
 パラボラアンテナをつくって,通信距離を伸ばす.
 
 \section{稲毛研に勝てるか}
 勝てる.
+
+
+\vfill
 \end{multicols}
 
 \end{document}
