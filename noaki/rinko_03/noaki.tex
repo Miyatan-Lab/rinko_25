@@ -9,16 +9,22 @@
 \usepackage{caption}
 \usepackage{indentfirst}
 \usepackage{float} % 図の位置を制御するために追加
-\usepackage[utf8]{inputenc}
 \usepackage{listings}
 \usepackage{xcolor}
 
-\geometry{margin=1in}
+\geometry{margin=25mm}
+\setstretch{1.2}
+\parindent=1em
+
+% ===== 日本語フォント設定 =====
+% HaranoAjiMincho がシステムに入っている必要あり
+\setmainjfont{HaranoAjiMincho} % メイン日本語フォント
+\setsansjfont{HaranoAjiGothic} % サンセリフ（任意）
+\setmonojfont{HaranoAjiMincho} % 等幅も同じに設定（好みに応じて変更）
 
 % 図のキャプションの表記を「図1」のように日本語化
 \renewcommand{\figurename}{図}
 \captionsetup[figure]{labelformat=default,labelsep=period}
-
 
 \renewcommand{\tablename}{表}
 \captionsetup[table]{labelformat=default,labelsep=period}
@@ -75,8 +81,7 @@
 \end{flushright}
 
 % 二段組開始
-\begin{multicols}{2}
-
+\begin{multicols}{2}[\raggedcolumns]
 \section{はじめに}
 LEDで光通信をして,「糸なし糸電話」をした.
 ほかの近況報告としては,「岩波講座 現代の物理学〈2〉電磁力学」を半分(相対論の最初らへん)ぐらいまで読んだ.
@@ -165,13 +170,21 @@ $ADC\_CK$はUARTのタイミング用の信号の分周元で,4.9152MHzが入力
 \end{figure}
 
 \subsubsection{UARTの出力}
-UART出力回路は図\ref{fig:uart_tx}のように設計した.
-主な機能には74ls165を使用している.
-これは8bitのシフトレジスタで,2つつなげてダミーbit,スタートbit,データbitを合わせた16bitぶんのデータをシフトしている.
+UART出力回路は, 図\ref{fig:uart_tx}に示すように設計した.  
+この回路の中心的な役割を担っているのは, 74LS165である.  
+74LS165は8bit幅のシフトレジスタであり, 本研究ではこれを2つ直列に接続することで, ダミーbitやスタートbit, そして実際のデータbitを含めた合計16bit分のデータをシフトできるようにしている.  
+この構成により, UARTで必要とされるbit列を一定のリズムで送り出すことが可能となる.  
 
-$uart\_baud0$はUARTのボーレートで,もとの水晶を$2^5$分周した307.2kHzになっている.
-これは,UARTで伝統的に多く採用される9600bpsの32倍である.
-16bitで1周期なので,サンプリングレートは19.2kHzである.
+さらに, ダイオードロジックからの出力である$SHIFT\_LOAD$信号は, 16bit分のシフトが完了したタイミングでアサートされ,この瞬間に新しいデータをレジスタにロードする仕組みとなっている.  
+ダミーbitやスタートbitを含め, あらかじめ決め打ちされたbit列を毎周期確実にセットすることによって, データの取りこぼしや不整合を避けつつ, 安定した出力を実現している.  
+
+次にクロックの関係について述べる.  
+$uart\_baud0$はUARTのボーレートを決定する信号であり, 基準となる水晶発振器の周波数を$2^5$で分周した結果, 307.2\,kHzとなっている.  
+これは, UART通信で伝統的に広く採用されている9600\,bpsのちょうど32倍に相当する.  
+本設計では16bitを1周期として扱うため, 実際のサンプリングレートは19.2\,kHzとなる.  
+この値はオーディオ信号処理における標準的なレート（例えば44.1\,kHzや48\,kHz）に比べるとやや低いが, UARTを使ったシリアル通信の枠組みとしては十分に実用的な周波数であると考えられる.  
+
+以上のように, UART出力回路はシフトレジスタの直列接続とシンプルなクロック分周を組み合わせることで, 比較的少ない部品点数ながらも安定した通信を可能にしている.  
 
 \begin{figure}[H]
     \centering
@@ -181,15 +194,18 @@ $uart\_baud0$はUARTのボーレートで,もとの水晶を$2^5$分周した307
 \end{figure}
 
 \subsubsection{LEDの駆動}
-LED駆動回路は図\ref{fig:led}のように設計した.
-LEDは浜松ホトニクスのL12170を使用した.
-これは普通の5mmLEDのサイズにも関わらず300mAの大電流を流すことができ,なおかつ40MHzもの高速な応答性を持っている.
+LED駆動回路は, 図\ref{fig:led}に示すように設計した.  
+本研究で使用したLEDは, 浜松ホトニクス製のL12170である.  
+このデバイスは外観こそ一般的な5mm LEDと同等のサイズであるが, 最大300\,mAという大電流を駆動できるうえ, 40\,MHzもの高速応答性を持っているという特徴がある.  
 
-これをフルパワーで駆動するにはロジックICのの出力では足りないので,MOSFETで駆動している.
-使用したMOSFETは$2SK4017$である.
-このICののゲートは730 pFの容量があり,これもまたロジックICの出力で307.2kHzもの高速ではスイッチングできない.
-そこでロジックICのとMOSFETのゲートの間に,$2sc1815$と$2sa1015$のプッシュプル回路をはさんでいる.
-これはゲートドライバを使用したほうが理想的な動作をすると考えられる.
+このLEDをフルパワーで駆動するには, ロジックICの出力能力では不十分である.  
+そこで本設計ではMOSFETを用いた駆動回路を採用した.  
+使用したMOSFETは$2SK4017$であり, このMOSFETのゲート容量はおよそ730\,pFある.
+そのため,ロジックICの出力だけでは307.2\,kHzという比較的高い周波数でのスイッチングを安定して行うことができない.  
+
+この問題に対応するため, ロジックICとMOSFETのゲートの間に, $2SC1815$と$2SA1015$を用いたプッシュプル回路を挿入している.  
+これにより, MOSFETゲートの充放電が効率的に行われ, 高速スイッチング動作を安定させることができる.  
+もちろん, 専用のゲートドライバICを用いればより理想的な駆動が実現できると考えられるが, 本回路では汎用トランジスタを組み合わせた簡易的な手法を採用している.
 
 \begin{figure}[H]
     \centering
@@ -198,8 +214,8 @@ LEDは浜松ホトニクスのL12170を使用した.
     \label{fig:led}
 \end{figure}
 
-\subsubsection{TIA}
-TIA(トランスインピーダンスアンプ)は図\ref{fig:tia}のように設計した.
+\subsubsection{受光部分}
+受光部分は図\ref{fig:tia}のように設計した.
 この回路は受光素子に流れる微小な逆電流をロジックレベルの電圧に変換する.
 
 受光素子は浜松ホトニクスのS6775である.
@@ -211,6 +227,8 @@ TIA(トランスインピーダンスアンプ)は図\ref{fig:tia}のように�
 この回路は前段と後段の2つのアンプで機能が分かれる.
 前段はTIA本体で,後段はコンパレータである.
 TIAの出力は2.5Vを中心に,受光素子から流れる電流によって±数十mVで振れる.
+前段にある抵抗を大きくするとtiaがより大きい振幅の電圧を出力するようになる.
+受光素子から流れる微小な電流をどこまで大きな電圧に変換できるかが通信距離を伸ばす上で要となる.
 後段のコンパレータは2.5Vを中心に数mVのヒステリシスを持っており,TIAから電流が流れたかどうかを見てHigh,Lowを出力する.
 TIA,コンパレータ,ともに逆相アンプで,二重にかけることで正相のアンプとして機能している.
 
@@ -234,7 +252,7 @@ TIA,コンパレータ,ともに逆相アンプで,二重にかけることで�
     \caption{受光素子,S6775} 
     \label{fig:s6775}
 \end{figure}
-
+\newpage
 \subsubsection{UARTの受信}
 UART受信回路は図\ref{fig:uart_rx}のように設計した.
 主な機能には74ls595を使用した.
@@ -283,9 +301,10 @@ $DAC\_CK$は行儀の悪い回路である.
     \caption{出力側アンプ} 
     \label{fig:out_amp}
 \end{figure}
-
+\newpage
 \subsection{基板への実装}
 基板に実装したものを図\ref{fig:sosin},\ref{fig:jusin}に示す.
+
 
 \begin{figure}[H]
     \centering
@@ -299,8 +318,52 @@ $DAC\_CK$は行儀の悪い回路である.
     \includegraphics[width=0.8\linewidth]{figure/jusin.jpg} 
     \caption{受信側回路} 
     \label{fig:jusin}
-  \end{figure}
-  
+\end{figure}
+
+\section{動作確認}
+図\ref{fig:test}, \ref{fig:check}に示すように, 通信が正常に行われていることを確認した.  
+図\ref{fig:test}からは, 送信側で出力された波形が受信側で忠実に再現されていることがわかる.  
+また, 図\ref{fig:check}では, PCのイヤホンジャックからの音声を受信側のスピーカで出力している様子を示している.  
+
+本回路単体での通信距離は最大で約5\,mであった.  
+それ以上の距離では, 受光素子からの電流が不足し, TIAによって十分な振幅の電圧を得ることができなかった.  
+この問題に対して, 以下のような解決策が考えられる.  
+
+\begin{itemize}
+\item
+  \textbf{LEDの高出力化}\\
+  現在は1\,WクラスのLEDを1個のみ使用している.  
+  これを2個, 8個, 32個と増設すれば, 受光素子に流れる電流も増加すると考えられる.  
+  ただし, LEDは1個あたり約300円と高価であり, コスト面が課題となる.  
+
+\item
+  \textbf{受光素子の増設}\\
+  受光素子を並列に追加することで, 電流を単純に増加させることができると期待される.  
+  しかし, 受光素子は数百\,nAオーダーの微弱な電流しか流れず非常にデリケートであるため, この方法の有効性には不確実性がある.  
+
+\item
+  \textbf{パラボラアンテナの利用}\\
+  大きな面積で集光し, 受光素子に光を集中させることで, LEDや受光素子を改造せずとも通信距離の延長が可能となる.  
+  ただし, 大型の装置を製作する必要がある点が課題である.  
+\end{itemize}
+
+実際に林がパラボラアンテナを試作し, これを用いてテストを行ったところ, 通信距離は約10\,mまで延長できた.  
+今後はこのアプローチを基盤として, 通信距離のさらなる改善を図ることとする.  
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.8\linewidth]{figure/test.jpg} 
+    \caption{通信の確認} 
+    \label{fig:test}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.8\linewidth]{figure/check.png} 
+    \caption{動作確認} 
+    \label{fig:check}
+\end{figure}
+
 \section{今後の予定}
 パラボラアンテナをつくって,通信距離を伸ばす.
 
