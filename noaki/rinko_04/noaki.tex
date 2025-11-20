@@ -1,0 +1,279 @@
+\documentclass[a4paper,10pt]{article}
+\usepackage{luatexja}
+\usepackage{luatexja-fontspec}
+\usepackage{geometry}
+\usepackage{multicol}
+\usepackage{titlesec}
+\usepackage{setspace}
+\usepackage{graphicx}
+\usepackage{caption}
+\usepackage{indentfirst}
+\usepackage{float} % 図の位置を制御するために追加
+\usepackage{listings}
+\usepackage{xcolor}
+\usepackage{amsmath} % align 環境などの数式用
+
+\geometry{margin=20mm}
+\setstretch{1.2}
+\parindent=1em
+
+% ===== 日本語フォント設定 =====
+% HaranoAjiMincho がシステムに入っている必要あり
+\setmainjfont{HaranoAjiMincho} % メイン日本語フォント
+\setsansjfont{HaranoAjiGothic} % サンセリフ（任意）
+\setmonojfont{HaranoAjiMincho} % 等幅も同じに設定（好みに応じて変更）
+
+% 図のキャプションの表記を「図1」のように日本語化
+\renewcommand{\figurename}{図}
+\captionsetup[figure]{labelformat=default,labelsep=period}
+
+\renewcommand{\tablename}{表}
+\captionsetup[table]{labelformat=default,labelsep=period}
+
+\geometry{margin=25mm}
+\setstretch{1.2}
+\parindent=1em
+
+\titleformat{\section}{\large\bfseries}{\thesection.}{1em}{}
+
+\definecolor{keywordcolor}{rgb}{0.26, 0.38, 0.68}
+\definecolor{commentcolor}{rgb}{0.3, 0.6, 0.3}
+\definecolor{stringcolor}{rgb}{0.7, 0.2, 0.2}
+
+\lstdefinelanguage{SystemVerilog}{
+  morekeywords={module,endmodule,input,output,logic,always_ff,if,else,begin,end,posedge,negedge},
+  sensitive=true,
+  morecomment=[l]{//},
+  morecomment=[s]{/*}{*/},
+  morestring=[b]",
+}
+
+\lstset{
+  language=SystemVerilog,
+  basicstyle=\ttfamily\small,
+  keywordstyle=\color{keywordcolor}\bfseries,
+  commentstyle=\color{commentcolor}\itshape,
+  stringstyle=\color{stringcolor},
+  numbers=left,
+  numberstyle=\tiny,
+  stepnumber=1,
+  numbersep=5pt,
+  frame=single,
+  tabsize=2,
+  showstringspaces=false,
+  breaklines=true,
+  breakatwhitespace=true
+}
+
+% -------------------------------------------
+% Python 用の listings 言語定義
+% -------------------------------------------
+\lstdefinelanguage{PythonCustom}{
+  language=Python,
+  morekeywords={
+    def,class,return,import,from,as,with,for,while,if,elif,else,
+    try,except,finally,raise,pass,break,continue,lambda,yield,global,nonlocal
+  },
+  sensitive=true,
+  morecomment=[l]{\#},
+  morestring=[b]",
+}
+
+% -------------------------------------------
+% Python 用スタイル
+% （SystemVerilog のスタイルを完全踏襲）
+% -------------------------------------------
+\lstdefinestyle{pythonstyle}{
+  language=PythonCustom,
+  basicstyle=\ttfamily\small,
+  keywordstyle=\color{keywordcolor}\bfseries,
+  commentstyle=\color{commentcolor}\itshape,
+  stringstyle=\color{stringcolor},
+  numbers=left,
+  numberstyle=\tiny,
+  stepnumber=1,
+  numbersep=5pt,
+  frame=single,
+  tabsize=2,
+  showstringspaces=false,
+  breaklines=true,
+  breakatwhitespace=true
+}
+
+% \title{SystemVerilog Code with Listings}
+
+\begin{document}
+
+% タイトルブロック
+\begin{center}
+\noindent
+{\LARGE 第4回輪講資料} \\
+{\large 4321　野秋 琳太郎} \\
+2025年 11月 15日
+\end{center}
+
+\begin{flushright}
+指導教員　宮田 尚起
+\end{flushright}    
+
+% 二段組開始
+\begin{multicols}{2}[\raggedcolumns]
+\section{はじめに}
+四年生ゼミでは高周波回路の勉強が始まった。
+これまでの輪講では先輩方の研究内容がつかみにくかったため、しばらくはそれらを自分で再現しつつ発表していく方針とした。
+今回は、前回のゼミ内容とも流れが近く、シミュレーション環境を整える手間も比較的少なく済みそうだったことから、
+三浦先輩の研究を題材にして調べることにした。
+
+\section{やりたいこと}
+電信方程式は,分布定数回路のキャパシタが線形な特性を持っていると仮定している.
+しかし,実際のキャパシタは非線形な特性を持っており,その非線形性が超高周波(数百GHzとか)においては無視できず,
+それによって信号線にソリトン波が発生することが知られている.
+そのため,非線形なキャパシタを考慮した電信方程式を導出する必要がある.
+非線形なキャパシタのモデルは先行研究でいくつか提案されているので,それで拡張した電信方程式を導出し,シミュレーションを行うことができれば研究としては完成ということになる.
+また,先輩の研究では"数値計算"も重きを置いているので,その方法も調べる必要がある.
+
+\section{KdV方程式}
+KdV方程式は,非線形波動方程式の一種であり,浅水波やプラズマ波動などの現象を記述するために用いられる. 
+その一般的な形は式\ref{eq:kdv}の通りである.
+これの解は解析的に求めることができ,図\ref{fig:soliton}に示すようなパルス状の波(soliton)と呼ばれる特異な波動を記述することができる.
+ここで,式\ref{eq:kdv}の$u(x,t)$を\ref{eq:kdv-solution}として,\ref{eq:kdv-ic}の初期条件を与えている.
+この波は,非線形性と分散性のバランスによって形成され,他の波と衝突しても形状を保つ特性を持つ.
+例えば、水面に2つの石を別の場所に投げ込んだときに発生する波は、衝突しても元の形状を保ちながら進む。
+これはこのソリトン波の特性によるものである。
+KdV方程式が非線形はどうの中でも広い応用範囲を持つことと,ソリトン波が確認できていることから,
+非線形なキャパシタを考慮した電信方程式を解ける形で導出する際に利用できると考えられる.
+
+\begin{align}
+    \frac{\partial u(x,t)}{\partial t} + 6u \frac{\partial u(x,t)}{\partial x} + \frac{\partial^3 u(x,t)}{\partial x^3} = 0 \label{eq:kdv}
+\end{align}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=\linewidth]{KdV_surface.png}
+    \caption{KdV方程式の孤立波解の例}
+    \label{fig:soliton}
+\end{figure}
+
+\begin{equation}
+  u(x,t)
+  = 2k^{2}\,
+  \operatorname{sech}^{2}\!\left(
+  k\left( x - 4k^{2} t - x_{0} \right)\right)
+  \label{eq:kdv-solution}
+\end{equation}
+
+\begin{equation}
+  u(x,0)
+  = \frac{c}{2}\,\operatorname{sech}^2\!\left(
+      \frac{\sqrt{c}}{2}\,(x - x_0)
+    \right)
+  \label{eq:kdv-ic}
+\end{equation}
+
+\section{キャパシタモデルの改善}
+高周波回路、特に非線形伝送線路（NLTL: Nonlinear Transmission Line）の解析において、
+キャパシタのモデルとしてバラクタダイオード（Varactor Diode）が重要な役割を果たす。
+これは半導体のpn接合を利用した素子であり、逆バイアス電圧を変化させることで静電容量を制御できる特性を持つ。
+一般にバラクタダイオードは集中定数素子であるが、これを伝送線路に周期的に装荷し、その間隔が信号波長に対して十分に短い場合、
+巨視的には電圧依存性を持つ分布定数線路として扱うことが可能である。
+
+このキャパシタの静電容量 $C(V)$ は、印加電圧 $V$ に対して非線形な特性を持つ。
+この特性を表現するモデルとして、以下の式(\ref{eq:varactor})が広く用いられている。
+
+\begin{equation}
+    C(V) = \frac{C_{J0}}{\left( 1 + \frac{V}{\phi} \right)^{\gamma}} \label{eq:varactor}
+\end{equation}
+
+ここで、$C_{J0}$ はバイアス電圧がゼロの時の接合容量、$\phi$ は拡散電位（ビルトインポテンシャル）、$\gamma$ は接合容量係数である
+（例えば、シリコン階段接合では $\gamma = 0.5$ とされる）。
+本節では、この非線形キャパシタンスモデルを考慮した、より厳密な電信方程式を導出する。
+
+\section{電信方程式の拡張}
+通常の線形電信方程式は以下の式(\ref{eq:telegraph_linear})で与えられる。
+
+\begin{align}
+    \frac{\partial ^2 V}{\partial x^2} &= LC\frac{\partial ^2 V}{\partial t^2}+(RC+GL)\frac{\partial V}{\partial t}+GRV \label{eq:telegraph_linear} 
+\end{align} 
+
+ここで、$L$、$C$、$R$、$G$ はそれぞれ単位長さあたりのインダクタンス、キャパシタンス、抵抗、コンダクタンスであり、すべて定数である。
+しかし、キャパシタンスが電圧の関数 $C(V)$ である場合、線形の方程式（式\ref{eq:telegraph_linear}）の定数 $C$ を、単に $C(V)$ に書き換えるだけではよくない。
+電圧 $V$ が時間変化すれば、それに応じて容量 $C(V)$ 自体も時間変化するため、時間微分の計算において積の微分と連鎖律の影響を受けるからである。
+
+伝送線路における電流 $I$ の空間的な減少は、蓄積される電荷 $Q$ の時間変化と、漏れ電流（コンダクタンス $G$）によって記述される。
+
+\begin{equation}
+    -\frac{\partial I}{\partial x} = \frac{\partial Q}{\partial t} + GV
+\end{equation}
+
+ここで、変位電流の項に着目する。
+電荷の変化は「微分容量 $C(V) = dQ/dV$」を用いて次のように記述される。
+
+\begin{align}
+  \frac{\partial Q}{\partial t} = \frac{dQ}{dV}\frac{\partial V}{\partial t} = C(V)\frac{\partial V}{\partial t}
+\end{align}
+
+次に、電圧の波動方程式を導出するために、もう一つの基礎方程式 $-\frac{\partial V}{\partial x} = L\frac{\partial I}{\partial t} + RI$ を用いて、$I$ を消去する操作を行う。
+このとき、右辺にある $L\frac{\partial I}{\partial t}$ の項に上記の電流の式を代入すると、「関数の積の時間微分」が現れる。
+すなわち、$C(V)$ と $\frac{\partial V}{\partial t}$ という「時間によって変化する2つの関数」の積を微分することになる。
+
+\begin{equation}
+    \frac{\partial}{\partial t} \left( \underbrace{C(V)}_{f(t)} \cdot \underbrace{\frac{\partial V}{\partial t}}_{g(t)} \right)
+\end{equation}
+
+これに積の微分公式 $(fg)' = f'g + fg'$ を適用すると、以下の2つの項に分かれる。
+
+\begin{align}
+    (\text{左辺}) &= \underbrace{C(V) \frac{\partial^2 V}{\partial t^2}}_{\text{通常の波の項} (f \cdot g')} 
+    + \underbrace{\frac{\partial C(V)}{\partial t} \frac{\partial V}{\partial t}}_{\text{非線形による追加項} (f' \cdot g)}
+\end{align}
+
+ここで、第2項の $\frac{\partial C(V)}{\partial t}$ に注目する。容量 $C$ は電圧 $V$ の関数であり、$V$ は時間 $t$ の関数であるため、ここでも連鎖律が適用される。
+
+\begin{equation}
+    \frac{\partial C(V)}{\partial t} = \frac{dC(V)}{dV} \frac{\partial V}{\partial t}
+\end{equation}
+
+これを元の式に戻すと、最終的に $\frac{\partial V}{\partial t}$ が2回掛け合わされた形（2乗の項）が出現する。
+
+\begin{equation}
+    \text{追加項} = \left( \frac{dC(V)}{dV} \frac{\partial V}{\partial t} \right) \cdot \frac{\partial V}{\partial t} = \frac{dC(V)}{dV}\left( \frac{\partial V}{\partial t} \right)^2
+\end{equation}
+
+以上を整理することで、非線形キャパシタンス $C(V)$ を考慮した拡張された電信方程式は次式となる。
+
+\begin{align}
+    \frac{\partial^2 V}{\partial x^2} &= L \left[ \underbrace{C(V)\frac{\partial^2 V}{\partial t^2}}_{\text{線形項の拡張}} + \underbrace{\frac{dC(V)}{dV}\left(\frac{\partial V}{\partial t}\right)^2}_{\text{非線形特有の項}} \right] \nonumber \\
+    &\quad + \left( R C(V) + GL \right)\frac{\partial V}{\partial t} + GRV \label{eq:telegraph_nonlinear}
+\end{align}
+
+式(\ref{eq:telegraph_nonlinear})の第1行目右辺にある第2項が、容量の電圧依存性によって生じる新たな項である。
+これは「電圧が急激に変化する（$\partial V/\partial t$ が大きい）ほど、波の挙動に強く影響を与える」ことを意味しており、衝撃波の発生やソリトン波の形成といった非線形現象の源となる要素である。
+
+\section{KdV方程式にあてはめたい}
+
+\section{考えたこと}
+
+\section{わからないこと}
+
+\section{おわりに}
+
+
+
+\vfill
+\end{multicols}
+\newpage
+\section{付録}
+\subsection{KdV方程式を解くPythonコード}
+3節で紹介したKdV方程式を数値的に解くPythonコードを以下に示す.
+\lstinputlisting[style=pythonstyle]{KdV.py}
+
+\subsection{波動方程式とKlein-Gordon方程式と電信方程式}
+
+\subsection{シュレーディンガー方程式とKlein-Gordon方程式とKdV方程式}
+
+\subsection{参考文献}
+\begin{itemize}
+    \item 和達美樹 『岩波講座現代の物理学 非線形波動』 岩波書店 1992年
+\end{itemize}
+
+\end{document}
