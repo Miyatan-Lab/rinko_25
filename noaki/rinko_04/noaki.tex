@@ -12,6 +12,7 @@
 \usepackage{listings}
 \usepackage{xcolor}
 \usepackage{amsmath} % align 環境などの数式用
+\usepackage{hyperref}
 
 \geometry{margin=20mm}
 \setstretch{1.2}
@@ -119,10 +120,10 @@
 % 二段組開始
 \begin{multicols}{2}[\raggedcolumns]
 \section{はじめに}
-四年生ゼミでは高周波回路の勉強が始まった。
-これまでの輪講では先輩方の研究内容がつかみにくかったため、しばらくはそれらを自分で再現しつつ発表していく方針とした。
-今回は、前回のゼミ内容とも流れが近く、シミュレーション環境を整える手間も比較的少なく済みそうだったことから、
-三浦先輩の研究を題材にして調べることにした。
+四年生ゼミでは高周波回路の勉強が始まった.
+これまでの輪講では先輩方の研究内容がつかみにくかったため,しばらくはそれらを自分で再現しつつ発表していく方針とした.
+今回は,前回のゼミ内容とも流れが近く,シミュレーション環境を整える手間も比較的少なく済みそうだったことから,
+三浦先輩の研究を題材にして調べることにした.
 
 \section{やりたいこと}
 電信方程式は,分布定数回路のキャパシタが線形な特性を持っていると仮定している.
@@ -138,8 +139,8 @@ KdV方程式は,非線形波動方程式の一種であり,浅水波やプラズ
 これの解は解析的に求めることができ,図\ref{fig:soliton}に示すようなパルス状の波(soliton)と呼ばれる特異な波動を記述することができる.
 ここで,式\ref{eq:kdv}の$u(x,t)$を\ref{eq:kdv-solution}として,\ref{eq:kdv-ic}の初期条件を与えている.
 この波は,非線形性と分散性のバランスによって形成され,他の波と衝突しても形状を保つ特性を持つ.
-例えば、水面に2つの石を別の場所に投げ込んだときに発生する波は、衝突しても元の形状を保ちながら進む。
-これはこのソリトン波の特性によるものである。
+例えば,水面に2つの石を別の場所に投げ込んだときに発生する波は,衝突しても元の形状を保ちながら進む.
+これはこのソリトン波の特性によるものである.
 KdV方程式が非線形はどうの中でも広い応用範囲を持つことと,ソリトン波が確認できていることから,
 非線形なキャパシタを考慮した電信方程式を解ける形で導出する際に利用できると考えられる.
 
@@ -171,36 +172,43 @@ KdV方程式が非線形はどうの中でも広い応用範囲を持つこと�
 \end{equation}
 
 \section{キャパシタモデルの改善}
-高周波回路、特に非線形伝送線路（NLTL: Nonlinear Transmission Line）の解析において、
-キャパシタのモデルとしてバラクタダイオード（Varactor Diode）が重要な役割を果たす。
-これは半導体のpn接合を利用した素子であり、逆バイアス電圧を変化させることで静電容量を制御できる特性を持つ。
-一般にバラクタダイオードは集中定数素子であるが、これを伝送線路に周期的に装荷し、その間隔が信号波長に対して十分に短い場合、
-巨視的には電圧依存性を持つ分布定数線路として扱うことが可能である。
+高周波回路,特に非線形伝送線路の解析において,
+キャパシタのモデルとしてバラクタダイオード（Varactor Diode）が重要な役割を果たす.
+これは半導体のpn接合を利用した素子であり,逆バイアス電圧を変化させることで静電容量を制御できる特性を持つ.
+一般にバラクタダイオードは集中定数素子であるが,これを伝送線路に周期的に装荷し,その間隔が信号波長に対して十分に短い場合,
+巨視的には電圧依存性を持つ分布定数線路として扱うことが可能である.
 
-このキャパシタの静電容量 $C(V)$ は、印加電圧 $V$ に対して非線形な特性を持つ。
-この特性を表現するモデルとして、以下の式(\ref{eq:varactor})が広く用いられている。
+このキャパシタの静電容量 $C(V)$ は,印加電圧 $V$ に対して非線形な特性を持つ.
+この特性を表現するモデルとして,以下の式(\ref{eq:varactor})が広く用いられている.
 
 \begin{equation}
     C(V) = \frac{C_{J0}}{\left( 1 + \frac{V}{\phi} \right)^{\gamma}} \label{eq:varactor}
 \end{equation}
 
-ここで、$C_{J0}$ はバイアス電圧がゼロの時の接合容量、$\phi$ は拡散電位（ビルトインポテンシャル）、$\gamma$ は接合容量係数である
-（例えば、シリコン階段接合では $\gamma = 0.5$ とされる）。
-この非線形キャパシタンスモデルを考慮して、より厳密な電信方程式を導出したい。
+ここで,$C_{J0}$ はバイアス電圧がゼロの時の接合容量,$\phi$ は拡散電位（ビルトインポテンシャル）,$\gamma$ は接合容量係数である
+（例えば,シリコン階段接合では $\gamma = 0.5$ とされる）.
+この非線形キャパシタンスモデルを考慮して,より厳密な電信方程式を導出したい.
 
 \section{電信方程式の拡張}
-通常の線形電信方程式は以下の式(\ref{eq:telegraph_linear})で与えられる。
+図\ref{fig:bunpu_josu}のような線路を考えて,線形な電信方程式は以下の式(\ref{eq:telegraph_linear})で与えられる.
+ここで,$L$,$C$,$R$,$G$ はそれぞれ単位長さあたりのインダクタンス,キャパシタンス,抵抗,コンダクタンスであり,すべて定数である.
 
 \begin{align}
     \frac{\partial ^2 V}{\partial x^2} &= LC\frac{\partial ^2 V}{\partial t^2}+(RC+GL)\frac{\partial V}{\partial t}+GRV \label{eq:telegraph_linear} 
 \end{align} 
 
-ここで、$L$、$C$、$R$、$G$ はそれぞれ単位長さあたりのインダクタンス、キャパシタンス、抵抗、コンダクタンスであり、すべて定数である。
-しかし、キャパシタンスが電圧の関数 $C(V)$ である場合、線形の方程式（式\ref{eq:telegraph_linear}）の定数 $C$ を、単に $C(V)$ に書き換えるだけではよくない。
-電圧 $V$ が時間変化すれば、それに応じて容量 $C(V)$ 自体も時間変化するため、時間微分の計算において積の微分と連鎖律の影響を受けるからである。
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.8\linewidth]{figure/bunpu_josu.png}
+    \caption{分布定数回路(1ノード)}
+    \label{fig:bunpu_josu}
+\end{figure}
 
-非線形な電信方程式を導出するためには、完成された式（2階微分方程式）に代入するのではなく、その導出元となる2つの基礎方程式（1階連立偏微分方程式）に立ち返る必要がある。
-分布定数回路における電圧 $V$ と電流 $I$ の関係は、以下の2式で記述される。
+
+しかし,キャパシタンスが電圧の関数 $C(V)$ である場合,線形の方程式（式\ref{eq:telegraph_linear}）の定数 $C$ を,単に $C(V)$ に書き換えるだけではよくない.
+電圧 $V$ が時間変化すれば,それに応じて容量 $C(V)$ 自体も時間変化するため,時間微分の計算において積の微分と連鎖律の影響を受けるからである.
+非線形な電信方程式を導出するためには,完成された式（2階微分方程式）に代入するのではなく,その導出元となる2つの基礎方程式（1階連立偏微分方程式）に立ち返る必要がある.
+分布定数回路における電圧 $V$ と電流 $I$ の関係は,以下の2式で記述される.
 
 \begin{itemize}
     \item 電圧降下の式（線路の直列インピーダンスによる）：
@@ -214,65 +222,192 @@ KdV方程式が非線形はどうの中でも広い応用範囲を持つこと�
     \end{equation}
 \end{itemize}
 
-ここで、式\ref{eq:basic_current}に含まれる変位電流項 $\frac{\partial Q}{\partial t}$ について考える。
-キャパシタンスが電圧依存性 $C(V)$ を持つ場合、電荷 $Q$ の時間変化は連鎖律により以下のように展開される。
+ここで,式\ref{eq:basic_current}に含まれる変位電流項 $\frac{\partial Q}{\partial t}$ について考える.
+キャパシタンスが電圧依存性 $C(V)$ を持つ場合,電荷 $Q$ の時間変化は連鎖律により以下のように展開される.
 
 \begin{equation}
   \frac{\partial Q}{\partial t} = \frac{dQ}{dV}\frac{\partial V}{\partial t} = C(V)\frac{\partial V}{\partial t}
 \end{equation}
 
-これを式\ref{eq:basic_current}に代入すると、電流の変化は次式となる。
+これを式\ref{eq:basic_current}に代入すると,電流の変化は次式となる.
 
 \begin{equation}
     -\frac{\partial I}{\partial x} = C(V)\frac{\partial V}{\partial t} + GV \label{eq:current_expanded}
 \end{equation}
 
-次に、電圧と電流を一本化して $V$ だけの式（波動方程式）にするため、もう一方の基礎方程式である式\ref{eq:basic_voltage}を変形する。
-式\ref{eq:basic_voltage}の両辺を $x$ で偏微分すると、以下の形になる。
+次に,電圧と電流を一本化して $V$ だけの式（波動方程式）にするため,もう一方の基礎方程式である式\ref{eq:basic_voltage}を変形する.
+式\ref{eq:basic_voltage}の両辺を $x$ で偏微分すると,以下の形になる.
 
 \begin{equation}
     -\frac{\partial^2 V}{\partial x^2} = L\frac{\partial}{\partial t}\left( \frac{\partial I}{\partial x} \right) + R\frac{\partial I}{\partial x}
 \end{equation}
 
-この式の右辺にある $\frac{\partial I}{\partial x}$ の箇所に、先ほど導いた式\ref{eq:current_expanded}を代入することで、電流 $I$ を消去できる。
-ここで特に注意すべきは、第1項の時間微分である。代入を行うと、積の微分と連鎖律により非線形項が現れる。
+この式の右辺にある $\frac{\partial I}{\partial x}$ の箇所に,先ほど導いた式\ref{eq:current_expanded}を代入することで,電流 $I$ を消去できる.
+ここで特に注意すべきは,第1項の時間微分である.代入を行うと,積の微分と連鎖律により非線形項が現れる.
 
 \begin{equation}
     \frac{\partial}{\partial t} \left( C(V)\frac{\partial V}{\partial t} \right) = C(V)\frac{\partial^2 V}{\partial t^2} + \frac{dC(V)}{dV}\left( \frac{\partial V}{\partial t} \right)^2
 \end{equation}
 
-以上を整理することで、以下の拡張された電信方程式が得られる。
+以上を整理することで式\ref{eq:telegraph_expandable}に示す,拡張可能な電信方程式が得られる.
 
 \begin{align}
     \frac{\partial^2 V}{\partial x^2} &= L \left[ C(V)\frac{\partial^2 V}{\partial t^2} + \frac{dC(V)}{dV}\left(\frac{\partial V}{\partial t}\right)^2 \right] \nonumber \\
-    &\quad + \left( R C(V) + GL \right)\frac{\partial V}{\partial t} + GRV
+    &\quad + \left( R C(V) + GL \right)\frac{\partial V}{\partial t} + GRV \label{eq:telegraph_expandable}
+\end{align}
+
+つぎに,キャパシタンスモデル（式\ref{eq:varactor}）を用いて,$C(V)$ とその微分 $\frac{dC(V)}{dV}$ を具体的に代入する.
+$C(V)$は\ref{eq:varactor}で与えられ,$\frac{dC(V)}{dV}$ は以下のようになる.
+
+\begin{align}
+\frac{dC(V)}{dV} &=-\frac{\gamma C_{J0}}{\phi}\left( 1 + \frac{V}{\phi} \right)^{-(\gamma + 1)}\\
+&= - \frac{\gamma C_{J0}}{\phi \left( 1 + \frac{V}{\phi} \right)^{\gamma + 1}}
+\end{align}
+
+これを式\ref{eq:telegraph_expandable}に代入すると,最終的な非線形電信方程式が得られる.
+
+\begin{align}
+    &\frac{\partial^2 V}{\partial x^2} \notag\\
+    &= L \left[ \frac{C_{J0}}{\left( 1 + \frac{V}{\phi} \right)^{\gamma}} \frac{\partial^2 V}{\partial t^2} - \frac{\gamma C_{J0}}{\phi \left( 1 + \frac{V}{\phi} \right)^{\gamma + 1}} \left( \frac{\partial V}{\partial t} \right)^2 \right] \nonumber \\
+    &\quad + \left( \frac{R C_{J0}}{\left( 1 + \frac{V}{\phi} \right)^{\gamma}} + GL \right)\frac{\partial V}{\partial t} + GRV \label{eq:telegraph_nonlinear}
 \end{align}
 
 \section{KdV方程式にあてはめたい}
+非線形電信方程式（式\ref{eq:telegraph_nonlinear}）からKdV方程式を導出するためには,いくつかの近似と変数変換を行う必要がある.
+まず,線路は無損失であると仮定し,抵抗 $R$ とコンダクタンス $G$ をゼロに設定する.
+次に,キャパシタンス $C(V)$ とその微分 $\frac{dC(V)}{dV}$ をテイラー展開して1次の項まで近似する.
+さらに,逓減摂動法を用いて,一方向に伝搬する波を抽出する.
+以下にその手順を示す.
 
-\section{考えたこと}
+\subsection{基礎方程式の整理}
+本来,数百GHz帯の伝送線路は連続的な媒体ではなく, インダクタ $L$ とキャパシタ $C$ が間隔 $h$ で並んだ離散的な格子の回路である.
+この回路の第 $n$ 番目のノードにおける方程式は, キルヒホッフの法則より以下の差分方程式で記述される.
 
-\section{わからないこと}
+\begin{equation}
+    V_{n+1} + V_{n-1} -2V_n= L h \frac{d^2 Q_n}{dt^2} \label{eq:discrete_wave}
+\end{equation}
+(※左辺は隣接ノードとの電位差の変化, 右辺は電流の時間変化に対応する)
+
+ここで, 空間的に連続な関数 $V(x, t)$ を仮定し, $V_n(t) = V(x, t)$, $V_{n\pm 1}(t) = V(x \pm h, t)$ と置く.
+$V(x \pm h, t)$ を $x$ の周りでテイラー展開すると以下のようになる.
+
+\begin{align}
+    &V(x + h) = \notag \\
+    &V(x) + h \frac{\partial V}{\partial x} + \frac{h^2}{2!} \frac{\partial^2 V}{\partial x^2} + \frac{h^3}{3!} \frac{\partial^3 V}{\partial x^3} + \frac{h^4}{4!} \frac{\partial^4 V}{\partial x^4} + \cdots \\
+    &V(x - h) = \notag\\
+    &V(x) - h \frac{\partial V}{\partial x} + \frac{h^2}{2!} \frac{\partial^2 V}{\partial x^2} - \frac{h^3}{3!} \frac{\partial^3 V}{\partial x^3} + \frac{h^4}{4!} \frac{\partial^4 V}{\partial x^4} - \cdots
+\end{align}
+
+これら2式の和をとると, 奇数次の項が相殺し, 偶数次の項が残る.
+
+\begin{equation}
+    V(x + h) + V(x - h) = 2V(x) + h^2 \frac{\partial^2 V}{\partial x^2} + \frac{h^4}{12} \frac{\partial^4 V}{\partial x^4} + O(h^6)
+\end{equation}
+
+これを変形して, 差分方程式の左辺（2階中心差分）に対応させる.
+
+\begin{equation}
+    V_{n+1} - 2V_n + V_{n-1} = h^2 \frac{\partial^2 V}{\partial x^2} + \frac{h^4}{12} \frac{\partial^4 V}{\partial x^4} + O(h^6) \label{eq:diff_expansion}
+\end{equation}
+
+これまでは $h \to 0$ とし, 第2項以降を無視していたが, ソリトンのような分散性波動を記述する場合, $h$ は有限であるとして第2項（$h^4$ の項）までを考慮する.
+
+式(\ref{eq:diff_expansion})を元の回路方程式(\ref{eq:discrete_wave})に代入する.
+
+\begin{equation}
+    h^2 \frac{\partial^2 V}{\partial x^2} + \frac{h^4}{12} \frac{\partial^4 V}{\partial x^4} \approx L h \frac{\partial^2 Q}{\partial t^2}
+\end{equation}
+
+両辺を $h^2$ で割り, 整理すると次式が得られる.
+
+\begin{equation}
+    \frac{\partial^2 V}{\partial x^2} + \frac{h^2}{12} \frac{\partial^4 V}{\partial x^4} = L \frac{\partial^2 Q}{\partial t^2} \label{eq:wave_basic}
+\end{equation}
+
+このように, 離散的な差分を近似する際にテイラー展開の高次項を残すことで, 回路の分散性を表す空間4階微分項 $\frac{\partial^4 V}{\partial x^4}$ が自然に導かれる.
+
+\subsection{キャパシタの非線形性の近似}
+次に, 右辺の電荷 $Q(V)$ を電圧 $V$ でテイラー展開する.
+キャパシタの容量$C(V)$ をテイラー展開して1次の項まで近似する.
+
+\begin{equation}
+    C(V) \approx C_{J0}\left( 1 - \gamma \frac{V}{\phi} \right)
+\end{equation}
+
+これを電圧 $V$ で積分し, 電荷 $Q(V)$ の近似式を得る.
+
+\begin{equation}
+    Q(V) = \int C(V) dV \approx C_{J0} V - \frac{\gamma C_{J0}}{2\phi} V^2 \label{eq:charge_approx}
+\end{equation}
+
+式(\ref{eq:charge_approx})を式(\ref{eq:wave_basic})に代入し, 線形位相速度 $v_0 = 1/\sqrt{LC_{J0}}$ を用いて整理すると, 以下の「分散項付き非線形波動方程式（Boussinesq型方程式）」が得られる.
+Boussinesq型方程式は, 非線形性と分散性の両方を含む波動現象を記述するために広く知られている.
+
+\begin{equation}
+    \frac{1}{v_0^2}\frac{\partial^2 V}{\partial t^2} - \frac{\partial^2 V}{\partial x^2} - \frac{h^2}{12}\frac{\partial^4 V}{\partial x^4} - \frac{\gamma}{2\phi v_0^2}\frac{\partial^2 (V^2)}{\partial t^2} = 0 \label{eq:boussinesq}
+\end{equation}
+
+\subsection{Gardner-Morikawa変換}
+式(\ref{eq:boussinesq})で与えられたブシネスク方程式から,一方向に伝播する波を記述するKdV方程式を導出する.
+導出には,波と共に動く座標系への変換と,微小パラメータ $\epsilon$ を用いた摂動展開（逓減摂動法）を用いる.
+
+まず,空間座標 $x$ と時間 $t$ に対し,以下の独立変数変換を行う.
+\begin{equation}
+    \xi = x - v_0 t, \quad \tau = \epsilon t
+\end{equation}
+ここで,$v_0$ は波の位相速度である.この変換により,微分演算子は連鎖律を用いて次のように書き換えられる.
+\begin{equation}
+    \frac{\partial}{\partial x} = \frac{\partial}{\partial \xi}, \quad
+    \frac{\partial}{\partial t} = -v_0 \frac{\partial}{\partial \xi} + \epsilon \frac{\partial}{\partial \tau}
+\end{equation}
+特に,時間の2階微分については,$\epsilon$ の2次以上の項を無視すると,以下の近似式が得られる.
+\begin{equation}
+    \frac{\partial^2}{\partial t^2} \approx v_0^2 \frac{\partial^2}{\partial \xi^2} - 2v_0 \epsilon \frac{\partial^2}{\partial \xi \partial \tau}
+\end{equation}
+これらの関係式を元のブシネスク方程式(\ref{eq:boussinesq})の各項に代入する.まず,線形項（第1項と第2項）は次のように整理される.
+\begin{align}
+    \frac{1}{v_0^2}\frac{\partial^2 V}{\partial t^2} - \frac{\partial^2 V}{\partial x^2} 
+    &\approx \frac{1}{v_0^2} \left( v_0^2 \frac{\partial^2 V}{\partial \xi^2} - 2v_0 \epsilon \frac{\partial^2 V}{\partial \xi \partial \tau} \right) - \frac{\partial^2 V}{\partial \xi^2} \notag \\
+    &= -\frac{2\epsilon}{v_0} \frac{\partial^2 V}{\partial \xi \partial \tau}
+\end{align}
+次に,分散項（第3項）と非線形項（第4項）については,$\epsilon$ の最低次の項のみを考慮し,時間微分の主要項 $\partial_t^2 \approx v_0^2 \partial_\xi^2$ を用いることで次のように近似される.
+\begin{equation}
+    - \frac{h^2}{12}\frac{\partial^4 V}{\partial x^4} \approx - \frac{h^2}{12}\frac{\partial^4 V}{\partial \xi^4}, \quad
+    - \frac{\gamma}{2\phi v_0^2}\frac{\partial^2 (V^2)}{\partial t^2} \approx - \frac{\gamma}{2\phi}\frac{\partial^2 (V^2)}{\partial \xi^2}
+\end{equation}
+これらを統合すると,$\xi, \tau$ 座標系における方程式は以下のようになる.
+\begin{equation}
+    -\frac{2\epsilon}{v_0} \frac{\partial^2 V}{\partial \xi \partial \tau} - \frac{h^2}{12}\frac{\partial^4 V}{\partial \xi^4} - \frac{\gamma}{2\phi}\frac{\partial^2 (V^2)}{\partial \xi^2} = 0
+\end{equation}
+この式を $\xi$ で1回積分する.ここで,無限遠方 $\xi \to \pm \infty$ において $V$ およびその導関数が0になるという境界条件を用いると,積分定数は0となる.
+\begin{equation}
+    -\frac{2\epsilon}{v_0} \frac{\partial V}{\partial \tau} - \frac{h^2}{12}\frac{\partial^3 V}{\partial \xi^3} - \frac{\gamma}{2\phi}\frac{\partial (V^2)}{\partial \xi} = 0
+\end{equation}
+さらに,非線形項を $\partial_\xi (V^2) = 2V \partial_\xi V$ と変形し,全体を $-\frac{v_0}{2\epsilon}$ 倍して整理することで,最終的に以下のKdV方程式が得られる.
+\begin{equation}
+    \frac{\partial V}{\partial \tau} + \frac{v_0 \gamma}{2\phi \epsilon} V \frac{\partial V}{\partial \xi} + \frac{v_0 h^2}{24 \epsilon} \frac{\partial^3 V}{\partial \xi^3} = 0
+\end{equation}
+こうして、本当に解くべきKdV方程式の形にたどり着いた。
 
 \section{おわりに}
+次回は,上記で導出したKdV方程式を数値的に解き,ソリトン波の挙動を確認する.
 
+\subsection{参考文献}
+\begin{itemize}
+    \item 和達美樹 『岩波講座現代の物理学 非線形波動』 岩波書店 1992年
+    \item pythonで学ぶ計算物理 ドキュメント » 5. 偏微分方程式 » 5.2. 【例題】KdV方程式\\ 
+    \url{https://www.physics.okayama-u.ac.jp/~otsuki/lecture/CompPhys2/pde/kdv.html}\\
+    (2025/11/20)
+\end{itemize}
 
-
+\newpage
 \vfill
 \end{multicols}
-\newpage
+
 \section{付録}
 \subsection{KdV方程式を解くPythonコード}
 3節で紹介したKdV方程式を数値的に解くPythonコードを以下に示す.
 \lstinputlisting[style=pythonstyle]{KdV.py}
 
-\subsection{波動方程式とKlein-Gordon方程式と電信方程式}
-
-\subsection{シュレーディンガー方程式とKlein-Gordon方程式とKdV方程式}
-
-\subsection{参考文献}
-\begin{itemize}
-    \item 和達美樹 『岩波講座現代の物理学 非線形波動』 岩波書店 1992年
-\end{itemize}
 
 \end{document}
