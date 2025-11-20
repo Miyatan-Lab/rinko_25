@@ -186,7 +186,7 @@ KdV方程式が非線形はどうの中でも広い応用範囲を持つこと�
 
 ここで、$C_{J0}$ はバイアス電圧がゼロの時の接合容量、$\phi$ は拡散電位（ビルトインポテンシャル）、$\gamma$ は接合容量係数である
 （例えば、シリコン階段接合では $\gamma = 0.5$ とされる）。
-本節では、この非線形キャパシタンスモデルを考慮した、より厳密な電信方程式を導出する。
+この非線形キャパシタンスモデルを考慮して、より厳密な電信方程式を導出したい。
 
 \section{電信方程式の拡張}
 通常の線形電信方程式は以下の式(\ref{eq:telegraph_linear})で与えられる。
@@ -199,55 +199,54 @@ KdV方程式が非線形はどうの中でも広い応用範囲を持つこと�
 しかし、キャパシタンスが電圧の関数 $C(V)$ である場合、線形の方程式（式\ref{eq:telegraph_linear}）の定数 $C$ を、単に $C(V)$ に書き換えるだけではよくない。
 電圧 $V$ が時間変化すれば、それに応じて容量 $C(V)$ 自体も時間変化するため、時間微分の計算において積の微分と連鎖律の影響を受けるからである。
 
-伝送線路における電流 $I$ の空間的な減少は、蓄積される電荷 $Q$ の時間変化と、漏れ電流（コンダクタンス $G$）によって記述される。
+非線形な電信方程式を導出するためには、完成された式（2階微分方程式）に代入するのではなく、その導出元となる2つの基礎方程式（1階連立偏微分方程式）に立ち返る必要がある。
+分布定数回路における電圧 $V$ と電流 $I$ の関係は、以下の2式で記述される。
+
+\begin{itemize}
+    \item 電圧降下の式（線路の直列インピーダンスによる）：
+    \begin{equation}
+        -\frac{\partial V}{\partial x} = L\frac{\partial I}{\partial t} + RI \label{eq:basic_voltage}
+    \end{equation}
+    
+    \item 電流減少の式（線路の並列アドミタンスによる）：
+    \begin{equation}
+        -\frac{\partial I}{\partial x} = \frac{\partial Q}{\partial t} + GV \label{eq:basic_current}
+    \end{equation}
+\end{itemize}
+
+ここで、式\ref{eq:basic_current}に含まれる変位電流項 $\frac{\partial Q}{\partial t}$ について考える。
+キャパシタンスが電圧依存性 $C(V)$ を持つ場合、電荷 $Q$ の時間変化は連鎖律により以下のように展開される。
 
 \begin{equation}
-    -\frac{\partial I}{\partial x} = \frac{\partial Q}{\partial t} + GV
-\end{equation}
-
-ここで、変位電流の項に着目する。
-電荷の変化は「微分容量 $C(V) = dQ/dV$」を用いて次のように記述される。
-
-\begin{align}
   \frac{\partial Q}{\partial t} = \frac{dQ}{dV}\frac{\partial V}{\partial t} = C(V)\frac{\partial V}{\partial t}
-\end{align}
-
-次に、電圧の波動方程式を導出するために、もう一つの基礎方程式 $-\frac{\partial V}{\partial x} = L\frac{\partial I}{\partial t} + RI$ を用いて、$I$ を消去する操作を行う。
-このとき、右辺にある $L\frac{\partial I}{\partial t}$ の項に上記の電流の式を代入すると、「関数の積の時間微分」が現れる。
-すなわち、$C(V)$ と $\frac{\partial V}{\partial t}$ という「時間によって変化する2つの関数」の積を微分することになる。
-
-\begin{equation}
-    \frac{\partial}{\partial t} \left( \underbrace{C(V)}_{f(t)} \cdot \underbrace{\frac{\partial V}{\partial t}}_{g(t)} \right)
 \end{equation}
 
-これに積の微分公式 $(fg)' = f'g + fg'$ を適用すると、以下の2つの項に分かれる。
+これを式\ref{eq:basic_current}に代入すると、電流の変化は次式となる。
+
+\begin{equation}
+    -\frac{\partial I}{\partial x} = C(V)\frac{\partial V}{\partial t} + GV \label{eq:current_expanded}
+\end{equation}
+
+次に、電圧と電流を一本化して $V$ だけの式（波動方程式）にするため、もう一方の基礎方程式である式\ref{eq:basic_voltage}を変形する。
+式\ref{eq:basic_voltage}の両辺を $x$ で偏微分すると、以下の形になる。
+
+\begin{equation}
+    -\frac{\partial^2 V}{\partial x^2} = L\frac{\partial}{\partial t}\left( \frac{\partial I}{\partial x} \right) + R\frac{\partial I}{\partial x}
+\end{equation}
+
+この式の右辺にある $\frac{\partial I}{\partial x}$ の箇所に、先ほど導いた式\ref{eq:current_expanded}を代入することで、電流 $I$ を消去できる。
+ここで特に注意すべきは、第1項の時間微分である。代入を行うと、積の微分と連鎖律により非線形項が現れる。
+
+\begin{equation}
+    \frac{\partial}{\partial t} \left( C(V)\frac{\partial V}{\partial t} \right) = C(V)\frac{\partial^2 V}{\partial t^2} + \frac{dC(V)}{dV}\left( \frac{\partial V}{\partial t} \right)^2
+\end{equation}
+
+以上を整理することで、以下の拡張された電信方程式が得られる。
 
 \begin{align}
-    (\text{左辺}) &= \underbrace{C(V) \frac{\partial^2 V}{\partial t^2}}_{\text{通常の波の項} (f \cdot g')} 
-    + \underbrace{\frac{\partial C(V)}{\partial t} \frac{\partial V}{\partial t}}_{\text{非線形による追加項} (f' \cdot g)}
+    \frac{\partial^2 V}{\partial x^2} &= L \left[ C(V)\frac{\partial^2 V}{\partial t^2} + \frac{dC(V)}{dV}\left(\frac{\partial V}{\partial t}\right)^2 \right] \nonumber \\
+    &\quad + \left( R C(V) + GL \right)\frac{\partial V}{\partial t} + GRV
 \end{align}
-
-ここで、第2項の $\frac{\partial C(V)}{\partial t}$ に注目する。容量 $C$ は電圧 $V$ の関数であり、$V$ は時間 $t$ の関数であるため、ここでも連鎖律が適用される。
-
-\begin{equation}
-    \frac{\partial C(V)}{\partial t} = \frac{dC(V)}{dV} \frac{\partial V}{\partial t}
-\end{equation}
-
-これを元の式に戻すと、最終的に $\frac{\partial V}{\partial t}$ が2回掛け合わされた形（2乗の項）が出現する。
-
-\begin{equation}
-    \text{追加項} = \left( \frac{dC(V)}{dV} \frac{\partial V}{\partial t} \right) \cdot \frac{\partial V}{\partial t} = \frac{dC(V)}{dV}\left( \frac{\partial V}{\partial t} \right)^2
-\end{equation}
-
-以上を整理することで、非線形キャパシタンス $C(V)$ を考慮した拡張された電信方程式は次式となる。
-
-\begin{align}
-    \frac{\partial^2 V}{\partial x^2} &= L \left[ \underbrace{C(V)\frac{\partial^2 V}{\partial t^2}}_{\text{線形項の拡張}} + \underbrace{\frac{dC(V)}{dV}\left(\frac{\partial V}{\partial t}\right)^2}_{\text{非線形特有の項}} \right] \nonumber \\
-    &\quad + \left( R C(V) + GL \right)\frac{\partial V}{\partial t} + GRV \label{eq:telegraph_nonlinear}
-\end{align}
-
-式(\ref{eq:telegraph_nonlinear})の第1行目右辺にある第2項が、容量の電圧依存性によって生じる新たな項である。
-これは「電圧が急激に変化する（$\partial V/\partial t$ が大きい）ほど、波の挙動に強く影響を与える」ことを意味しており、衝撃波の発生やソリトン波の形成といった非線形現象の源となる要素である。
 
 \section{KdV方程式にあてはめたい}
 

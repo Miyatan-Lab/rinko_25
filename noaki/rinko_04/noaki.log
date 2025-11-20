@@ -1,4 +1,4 @@
-This is LuaHBTeX, Version 1.22.0 (TeX Live 2025)  (format=lualatex 2025.11.6)  20 NOV 2025 09:16
+This is LuaHBTeX, Version 1.22.0 (TeX Live 2025)  (format=lualatex 2025.11.6)  20 NOV 2025 09:57
  restricted system commands enabled.
 **noaki.tex
 (./noaki.tex
@@ -1362,23 +1362,20 @@ Package luatex.def Info: KdV_surface.png  used on input line 152.
 [1
 
 {/usr/local/texlive/2025/texmf-var/fonts/map/pdftex/updmap/pdftex.map}<./KdV_sur
-face.png>]
-LaTeX Font Info:    Font shape `JT3/HaranoAjiMincho(0)/m/n' will be
-(Font)              scaled to size 6.73553pt on input line 228.
-LaTeX Font Info:    Font shape `JT3/HaranoAjiMincho(0)/m/n' will be
-(Font)              scaled to size 4.8111pt on input line 228.
- [2]
+face.png>] [2]
 (/usr/local/texlive/2025/texmf-dist/tex/latex/listings/lstlang1.sty
 File: lstlang1.sty 2024/09/23 1.10c listings language file
 )(load cache: extra_lmmono10-regular.luc)
 LaTeX Font Info:    Font shape `JT3/HaranoAjiMincho(0)/m/n' will be
-(Font)              scaled to size 8.65997pt on input line 268.
+(Font)              scaled to size 8.65997pt on input line 267.
 LaTeX Font Info:    Font shape `JY3/HaranoAjiMincho(0)/m/n' will be
-(Font)              scaled to size 8.65997pt on input line 268.
+(Font)              scaled to size 8.65997pt on input line 267.
 Removing  `ltj.process_input_buffer' from `process_input_buffer'.
 Inserting `ltj.listings_unicode' in `process_input_buffer'.
 Inserting `ltj.process_input_buffer' in `process_input_buffer'. (./KdV.py(load c
 ache: extra_lmroman9-regular.luc)
+LaTeX Font Info:    Font shape `JT3/HaranoAjiMincho(0)/m/n' will be
+(Font)              scaled to size 4.8111pt on input line 1.
 LaTeX Font Info:    Font shape `TU/lmtt/bx/n' in size <9> not available
 (Font)              Font shape `TU/lmtt/b/n' tried instead on input line 1.
 (load cache: extra_lmmonolt10-bold.luc)
@@ -2164,15 +2161,15 @@ L3 programming layer <2025-10-24>
 
 Here is how much of LuaTeX's memory you used:
  12159 strings out of 476081
- 746622,953878 words of node,token memory allocated
+ 746619,953878 words of node,token memory allocated
  2255 words of node memory still in use:
    12 hlist, 2 vlist, 5 rule, 2 glue, 4 kern, 1 glyph, 733 attribute, 58 glue_sp
 ec, 79 attribute_list, 1 write, 15 user_defined nodes
-   avail lists: 1:31,2:128506,3:836,4:16026,5:8228,6:108,7:12585,8:53,9:20286,10
+   avail lists: 1:32,2:128506,3:777,4:16026,5:8228,6:108,7:10783,8:51,9:20286,10
 :24,11:444
  34307 multiletter control sequences out of 65536+600000
  61 fonts using 82609375 bytes
- 104i,18n,131p,2038b,1227s stack positions out of 10000i,1000n,20000p,200000b,200000s
+ 104i,11n,131p,2038b,1227s stack positions out of 10000i,1000n,20000p,200000b,200000s
 </usr/local/texlive/2025/texmf-dist/fonts/opentype/public/lm/lmmono10-italic.otf
 ></usr/local/texlive/2025/texmf-dist/fonts/opentype/public/lm/lmmono9-regular.ot
 f></usr/local/texlive/2025/texmf-dist/fonts/opentype/public/lm/lmmonolt10-bold.o
@@ -2189,13 +2186,11 @@ ts/type1/public/amsfonts/cm/cmmi10.pfb></usr/local/texlive/2025/texmf-dist/fonts
 /type1/public/amsfonts/cm/cmmi7.pfb></usr/local/texlive/2025/texmf-dist/fonts/ty
 pe1/public/amsfonts/cm/cmr10.pfb></usr/local/texlive/2025/texmf-dist/fonts/type1
 /public/amsfonts/cm/cmr7.pfb></usr/local/texlive/2025/texmf-dist/fonts/type1/pub
-lic/amsfonts/cm/cmsy10.pfb></usr/local/texlive/2025/texmf-dist/fonts/type1/publi
-c/amsfonts/cm/cmsy5.pfb></usr/local/texlive/2025/texmf-dist/fonts/type1/public/a
-msfonts/cm/cmsy7.pfb>
-Output written on noaki.pdf (7 pages, 509278 bytes).
+lic/amsfonts/cm/cmsy10.pfb>
+Output written on noaki.pdf (7 pages, 487043 bytes).
 
-PDF statistics: 130 PDF objects out of 1000 (max. 8388607)
- 80 compressed objects within 1 object stream
+PDF statistics: 122 PDF objects out of 1000 (max. 8388607)
+ 74 compressed objects within 1 object stream
  0 named destinations out of 1000 (max. 131072)
  1 words of extra memory for PDF output out of 10000 (max. 100000000)
 
