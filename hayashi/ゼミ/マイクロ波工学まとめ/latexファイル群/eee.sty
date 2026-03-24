@@ -1,0 +1,165 @@
+%! TEX root = template.tex
+
+\usepackage[a4paper,top=3cm,bottom=2cm,left=2cm,right=2cm]{geometry}
+\usepackage{amsmath}
+\usepackage[dvipdfm]{graphicx}
+\usepackage{lscape}
+\usepackage{cite}
+\usepackage{enumerate}
+\usepackage{multirow}
+\usepackage{color}
+\usepackage{lscape}
+\usepackage{listings}
+\usepackage{jlisting}
+
+\lstset{%
+ language={C},
+ basicstyle={\small},%
+ identifierstyle={\small},%
+ commentstyle={\small\itshape},%
+ keywordstyle={\small\bfseries},%
+ ndkeywordstyle={\small},%
+ stringstyle={\small\ttfamily},
+ frame={tb},
+ breaklines=true,
+ columns=[l]{fullflexible},%
+ numbers=left,%
+ xrightmargin=0zw,%
+ xleftmargin=3zw,%
+ numberstyle={\scriptsize},%
+ stepnumber=1,
+ numbersep=1zw,%
+ lineskip=-0.5ex%
+}
+
+\def\lstlistingname{プログラム}
+\def\lstlistlistingname{プログラム目次}
+
+\setlength{\unitlength}{1mm}
+\def\pwidth{160}
+
+\newenvironment{jikkenTitle}{%
+\thispagestyle{empty}
+\begin{picture}(\pwidth,240)
+  \put(0,0){\makebox(\pwidth,240){}}%
+  \put(30,120){\makebox(20,5){共同実験者名}}%
+  \put(30,105){\line(1,0){105}}%
+  \put(30,90){\line(1,0){105}}%
+  \put(2,42){%
+   \put(0,0){\framebox(156,30){}}%
+   \put(1,0){\makebox(25,18)[tl]{提出日}}%
+   \put(0,19){%
+    \put(0,0){\line(1,0){78}}%
+    \put(1,0){\makebox(25,5)[l]{予定日}}%
+   }%
+   \put(0,24){%
+    \put(0,0){\line(1,0){156}}%
+    \put(0,0){\makebox(78,6){提出日}}%
+   }%
+   \multiput(26,0)(26,0){2}{\line(0,1){24}}%
+   \multiput(78,0)(52,0){2}{\line(0,1){30}}%
+   \put(78,24){\makebox(52,6){備考}}%
+   \put(130,24){\makebox(26,6){評価}}%
+  }%
+  \put(0,15){\makebox(\pwidth,10){\Large \textbf{東京都立産業技術高等専門学校}}}%
+  \put(0,10){\makebox(\pwidth,10){\large \textbf{電気電子工学コース}}}%
+ }%
+ {%
+ \end{picture}
+ \newpage
+ \pagestyle{plain}
+ \setcounter{page}{1}
+ }
+
+\newcommand{\gakunen}[1]{
+   \put(0,220){\makebox(\pwidth,20){\textbf{\huge 第#1学年　電気電子工学実験実習報告書}}}
+}
+
+\newcommand{\numTitle}[2]{%
+ \put(0,200){%
+  \put(10,0){%
+   \put(0,0){\line(1,0){10}}%
+   \put(0,1){\makebox(10,10)[b]{\hfil\LARGE #1 }}%
+  }%
+  \put(30,0){%
+   \put(0,0){\line(1,0){130}}%
+   \put(0,1){%
+    \makebox(130,20)[b]{%
+     \begin{minipage}{130mm}%
+      \Large #2%
+     \end{minipage}%
+    }%
+   }%
+  }%
+ }%
+ \put(30,190){\line(1,0){130}}%
+}
+
+\newcommand{\subTitle}[1]{%
+ \put(30,191){%
+  \makebox(130,20)[b]{%
+   \begin{minipage}{130mm}%
+    \Large #1%
+   \end{minipage}%
+  }%
+ }%
+}
+
+\newcommand{\jikkenbi}[1]{%
+ \put(0,170){\makebox(\pwidth,10){実験日 #1}}%
+}
+
+\newcommand{\jikkenbiII}[1]{%
+ \put(0,165){\makebox(\pwidth,10){　　　 #1}}%
+}
+
+\newcommand{\kyoudou}[1]{%
+ \put(30,106){%
+  \makebox(105,20)[b]{%
+   \begin{minipage}{105mm}%
+    \large #1%
+   \end{minipage}%
+  }%
+ }
+}
+
+\newcommand{\hanNumberName}[3]{
+ \put(30,135){%
+  \put(0,0){\framebox(105,19){}}%
+  \put(0,0){%
+   \put(1,0){\makebox(26,18)[lt]{班}}%
+   \put(0,0){\makebox(26,19){{\Large #1}}}%
+  }
+  \put(26,0){%
+   \put(0,0){\line(0,1){19}}%
+   \put(1,0){\makebox(26,18)[lt]{学生番号}}%
+   \put(0,0){\makebox(27,19){{\Large #2}}}%
+  }
+  \put(53,0){%
+   \put(0,0){\line(0,1){19}}%
+   \put(1,0){\makebox(51,18)[lt]{氏名}}%
+   \put(0,0){\makebox(52,19){\Large #3}}%
+  }
+ }
+}
+
+\newcommand{\yoteibi}[1]{%
+ \put(2,61){\makebox(25,5)[r]{#1}}%
+}
+
+%% その他のマクロ
+% 参照系
+\newcommand{\wpage}[1]{\pageref{#1}ページ}%
+\newcommand{\weq}[1]{式(\ref{eq:#1})}%
+\newcommand{\wfig}[1]{図\ref{fig:#1}}%
+\newcommand{\wtab}[1]{表\ref{tab:#1}}%
+\newcommand{\wpro}[1]{プログラム\ref{pro:#1}}%
+\newcommand{\wsec}[1]{\bf \ref{sec:#1}}%
+\newcommand{\wpeq}[1]{\wpage{eq:#1}\weq{#1}}%
+\newcommand{\wpfig}[1]{\wpage{fig:#1}\wfig{#1}}%
+\newcommand{\wptab}[1]{\wpage{tab:#1}\wtab{#1}}%
+\newcommand{\wppro}[1]{\wpage{pro:#1}\wpro{#1}}%
+\newcommand{\wpsec}[1]{\wpage{sec:#1}\wsec{#1}}%
+
+
+
