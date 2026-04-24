@@ -1,4 +1,4 @@
-This is LuaHBTeX, Version 1.22.0 (TeX Live 2025)  (format=lualatex 2025.11.6)  20 NOV 2025 16:12
+This is LuaHBTeX, Version 1.22.0 (TeX Live 2025)  (format=lualatex 2025.11.6)  22 JAN 2026 15:47
  restricted system commands enabled.
 **noaki.tex
 (./noaki.tex
@@ -1446,27 +1446,31 @@ LaTeX Font Info:    Font shape `JT3/HaranoAjiMincho(0)/b/n' will be
 (Font)              scaled to size 11.54663pt on input line 122.
 LaTeX Font Info:    Font shape `JY3/HaranoAjiMincho(0)/b/n' will be
 (Font)              scaled to size 11.54663pt on input line 122.
+LaTeX Font Info:    Font shape `JT3/HaranoAjiMincho(0)/b/n' will be
+(Font)              scaled to size 9.6222pt on input line 131.
+LaTeX Font Info:    Font shape `JY3/HaranoAjiMincho(0)/b/n' will be
+(Font)              scaled to size 9.6222pt on input line 131.
 (load cache: extra_lmroman7-regular.luc)(load cache: extra_lmroman5-regular.luc)
 LaTeX Font Info:    Font shape `JY3/HaranoAjiMincho(0)/m/n' will be
-(Font)              scaled to size 6.73553pt on input line 140.
+(Font)              scaled to size 6.73553pt on input line 150.
 LaTeX Font Info:    Font shape `JY3/HaranoAjiMincho(0)/m/n' will be
-(Font)              scaled to size 4.8111pt on input line 140.
+(Font)              scaled to size 4.8111pt on input line 150.
 <KdV_surface.png, id=61, 455.301pt x 390.258pt>
 File: KdV_surface.png Graphic file (type png)
 <use KdV_surface.png>
-Package luatex.def Info: KdV_surface.png  used on input line 153.
+Package luatex.def Info: KdV_surface.png  used on input line 164.
 (luatex.def)             Requested size: 222.62206pt x 190.8172pt.
  [1
 
 {/usr/local/texlive/2025/texmf-var/fonts/map/pdftex/updmap/pdftex.map}<./KdV_sur
 face.png>]
-<figure/bunpu_josu.png, id=88, 174.1707pt x 75.1608pt>
-File: figure/bunpu_josu.png Graphic file (type png)
-<use figure/bunpu_josu.png>
-Package luatex.def Info: figure/bunpu_josu.png  used on input line 202.
-(luatex.def)             Requested size: 178.09831pt x 76.86139pt.
- [2<./figure/bunpu_josu.png>]
-Overfull \hbox (8.98604pt too wide) detected at line 305
+<figure/lchasigo.png, id=90, 248.6088pt x 138.7584pt>
+File: figure/lchasigo.png Graphic file (type png)
+<use figure/lchasigo.png>
+Package luatex.def Info: figure/lchasigo.png  used on input line 212.
+(luatex.def)             Requested size: 222.62206pt x 124.26103pt.
+
+Overfull \hbox (8.98604pt too wide) detected at line 237
 [][][]\OML/cmm/m/it/10 V\OT1/cmr/m/n/10 (\OML/cmm/m/it/10 x \OT1/cmr/m/n/10 + \
 OML/cmm/m/it/10 h\OT1/cmr/m/n/10 ) + \OML/cmm/m/it/10 V\OT1/cmr/m/n/10 (\OML/cm
 m/m/it/10 x \OMS/cmsy/m/n/10 ^^@ \OML/cmm/m/it/10 h\OT1/cmr/m/n/10 ) = 2\OML/cm
@@ -1475,18 +1479,27 @@ m/m/it/10 V\OT1/cmr/m/n/10 (\OML/cmm/m/it/10 x\OT1/cmr/m/n/10 ) + \OML/cmm/m/it
 m/it/10 h[]\OT1/cmr/m/n/10 )
  []
 
-[3]
-Overfull \hbox (3.72806pt too wide) detected at line 372
+[2<./figure/lchasigo.png>]
+Overfull \hbox (3.72806pt too wide) detected at line 296
 [][]
  []
 
+[3]
+LaTeX Font Info:    Font shape `JT3/HaranoAjiMincho(0)/m/n' will be
+(Font)              scaled to size 6.73553pt on input line 374.
+LaTeX Font Info:    Font shape `JT3/HaranoAjiMincho(0)/m/n' will be
+(Font)              scaled to size 4.8111pt on input line 374.
+<solution_plot.png, id=145, 722.7pt x 505.89pt>
+File: solution_plot.png Graphic file (type png)
+<use solution_plot.png>
+Package luatex.def Info: solution_plot.png  used on input line 401.
+(luatex.def)             Requested size: 273.14923pt x 191.20581pt.
 
-Overfull \hbox (19.05716pt too wide) detected at line 377
-[][][]\OMS/cmsy/m/n/10 ^^@[][]  ^^@[][]\OML/cmm/m/it/10 ;  \OMS/cmsy/m/n/10 ^^@
-[][]  ^^@[][]
+Overfull \hbox (50.52718pt too wide) in paragraph at lines 401--402
+ [][] 
  []
 
-(load cache: extra_lmmono10-regular.luc) [4]
+(load cache: extra_lmmono10-regular.luc) [4<./solution_plot.png>]
 
 Package caption Warning: Unused \captionsetup[table] on input line 32.
 See the caption package documentation for explanation.
@@ -1498,31 +1511,31 @@ L3 programming layer <2025-10-24>
  ***********
 
 
+LaTeX Warning: Label(s) may have changed. Rerun to get cross-references right.
+
+
 Package rerunfilecheck Warning: File `noaki.out' has changed.
 (rerunfilecheck)                Rerun to get outlines right
 (rerunfilecheck)                or use package `bookmark'.
 
 Package rerunfilecheck Info: Checksums for `noaki.out':
-(rerunfilecheck)             Before: 078BA733AC31A58ACE0CAEABEC05F982;1460
-(rerunfilecheck)             After:  A5E769E8AE28506D44331F900D134E6D;1225.
+(rerunfilecheck)             Before: 3774B804E6FFC04BE00B9E31A4C7C441;1622
+(rerunfilecheck)             After:  AA2D37FA97F6C28EE95CBA8C5C2F54B1;1577.
 )
 
 Here is how much of LuaTeX's memory you used:
- 18034 strings out of 476081
- 244640,953878 words of node,token memory allocated
- 2309 words of node memory still in use:
-   12 hlist, 2 vlist, 5 rule, 2 glue, 4 kern, 1 glyph, 755 attribute, 58 glue_sp
-ec, 81 attribute_list, 1 write, 15 user_defined, 1 pdf_action nodes
-   avail lists: 1:26,2:50867,3:616,4:443,5:600,6:64,7:8462,8:74,9:4069,10:24,11:
-9
- 40049 multiletter control sequences out of 65536+600000
- 55 fonts using 74532943 bytes
- 104i,13n,115p,2038b,733s stack positions out of 10000i,1000n,20000p,200000b,200000s
-
-warning  (pdf backend): unreferenced destination with name 'subsection.8.1'
-
-warning  (pdf backend): unreferenced destination with name 'section.8'
+ 18058 strings out of 476081
+ 195711,953878 words of node,token memory allocated
+ 2573 words of node memory still in use:
+   12 hlist, 2 vlist, 5 rule, 2 glue, 4 kern, 1 glyph, 876 attribute, 58 glue_sp
+ec, 92 attribute_list, 1 write, 15 user_defined, 1 pdf_action nodes
+   avail lists: 1:15,2:45062,3:645,4:489,5:785,6:71,7:7442,8:74,9:3455,10:24,11:
+23
+ 40065 multiletter control sequences out of 65536+600000
+ 56 fonts using 78316055 bytes
+ 104i,10n,115p,2038b,775s stack positions out of 10000i,1000n,20000p,200000b,200000s
 </usr/local/texlive/2025/texmf-dist/fonts/opentype/public/lm/lmmono10-regular.ot
+f></usr/local/texlive/2025/texmf-dist/fonts/opentype/public/lm/lmroman10-bold.ot
 f></usr/local/texlive/2025/texmf-dist/fonts/opentype/public/haranoaji/HaranoAjiM
 incho-Bold.otf></usr/local/texlive/2025/texmf-dist/fonts/opentype/public/lm/lmro
 man12-bold.otf></usr/local/texlive/2025/texmf-dist/fonts/opentype/public/lm/lmro
@@ -1538,10 +1551,10 @@ blic/amsfonts/cm/cmr5.pfb></usr/local/texlive/2025/texmf-dist/fonts/type1/public
 /amsfonts/cm/cmr7.pfb></usr/local/texlive/2025/texmf-dist/fonts/type1/public/ams
 fonts/cm/cmsy10.pfb></usr/local/texlive/2025/texmf-dist/fonts/type1/public/amsfo
 nts/cm/cmsy7.pfb>
-Output written on noaki.pdf (4 pages, 514121 bytes).
+Output written on noaki.pdf (4 pages, 723717 bytes).
 
-PDF statistics: 233 PDF objects out of 1000 (max. 8388607)
- 192 compressed objects within 2 object streams
- 53 named destinations out of 1000 (max. 131072)
+PDF statistics: 244 PDF objects out of 1000 (max. 8388607)
+ 198 compressed objects within 2 object streams
+ 59 named destinations out of 1000 (max. 131072)
  105 words of extra memory for PDF output out of 10000 (max. 100000000)
 
